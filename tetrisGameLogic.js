@@ -165,7 +165,7 @@ function checkGrid() {
     else if (count === 3)
         scoreCount += 50;
     else
-        scoreCount += (scoreCount - 3) * 100;
+        scoreCount += (count - 3) * 100;
 
     score.innerHTML = "Score: " + scoreCount;
 }
@@ -186,7 +186,7 @@ function fallingPiece(piece) {
             }
         }
         if (currentPiece.y === 0) {
-            alert("game over");
+            alert("Vége van, kicsi.");
             grid = generateGrid(ROWS, COLUMNS);
             score = 0;
         }

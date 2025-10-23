@@ -15,6 +15,10 @@ body {
     height: 100vh;
 }
 
+#score {
+    font-size: 150%;
+}
+
 #map {
     background-image: url("./res/tetris-bg.png");
     background-size: cover;
