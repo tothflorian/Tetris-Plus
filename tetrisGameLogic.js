@@ -41,13 +41,15 @@ const COLUMNS = 10;
 
 let grid = generateGrid(ROWS, COLUMNS);
 let currentPiece = null;
-let score = 0;
 
 const canvas = document.querySelector("#map");
 const context = canvas.getContext("2d");
 
 const BLOCK_SIZE = 32;
 const COLORS = 8;
+
+let scoreCount = 0;
+let score = document.querySelector("#score");
 
 const spriteSheet = new Image();
 spriteSheet.src = "./res/blocks-sprite-sheet.png";
@@ -154,16 +156,18 @@ function checkGrid() {
         }
     }
 
-    if (count === 1)
-        score += 10;
+    if (count < 1)
+        return;
+    else if (count === 1)
+        scoreCount += 10;
     else if (count === 2)
-        score += 30;
+        scoreCount += 30;
     else if (count === 3)
-        score += 50;
-    else if (count > 3)
-        score += 100;
+        scoreCount += 50;
+    else
+        scoreCount += (scoreCount - 3) * 100;
 
-    //scoreboard.innerHTML = "Score: " + score;
+    score.innerHTML = "Score: " + scoreCount;
 }
 
 function fallingPiece(piece) {
@@ -282,59 +286,3 @@ document.addEventListener("keydown", (event) => {
 // lekérni a DOM-ból, visszaírni a DOM-ba
 // aszinkron függvény
 // README szerű felsorolása, hogy milyen mechanikákat használunk
-
-
-
-/*
-function rotatePiece(piece) {
-    let rows = piece.matrix.length;
-    let cols = piece.matrix[0].length;
-    let transposed = new Array(cols).fill().map(() => new Array(rows).fill(0));
-
-    for (let i = 0; i < rows; i++) {
-        for (let j = 0; j < cols; j++) {
-            transposed[j][i] = piece.matrix[i][j];
-        }
-    }
-
-    piece.matrix = transposed;
-}
-
-function isIntersectingObstacle(piece) {
-    if ( !(piece.y < (ROWS - piece.matrix.length)) )
-        return true;
-
-    grid.forEach(fixPiece => {
-        for (let i = 0; i < fixPiece.matrix.length; i++) {
-            for (let j = 0; j < fixPiece.matrix[i].length; j++) {
-
-                if ( (piece.matrix[i][j] === 1)
-                    && (fixPiece.matrix[i][j] === piece.matrix[i][j])
-                    && (fixPiece.matrix[i][j] === piece.matrix[i][j]) )
-                    return true;
-            }
-        }
-    })
-    return false;
-}
-
-function fallingPiece(piece) {
-    if (!isIntersectingObstacle(piece)) {
-        piece.y += 1;
-    }
-    else {
-        grid.push(piece);
-        currentPiece = generateShape();
-    }
-}
-
-function movePieceLeft(piece) {
-    if (piece.x > 0)
-        piece.x -= 1;
-}
-
-function movePieceRight(piece) {
-    if (piece.x < COLUMNS - piece.matrix[0].length)
-        piece.x += 1;
-}
-*/
