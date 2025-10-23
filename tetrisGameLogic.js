@@ -102,17 +102,16 @@ function renderPiece(piece) {
     for (let i = 0; i < matrix.length; i++) {
         for (let j = 0; j < matrix[i].length; j++) {
             if (matrix[i][j]) {
-                // Crop sprite sheet: (image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
                 context.drawImage(
                     spriteSheet,
                     (colorIndex - 1) * BLOCK_SIZE,
                     0,
-                    BLOCK_SIZE, // sWidth: 32px
-                    BLOCK_SIZE, // sHeight: 32px
-                    x * BLOCK_SIZE + j * BLOCK_SIZE, // dx: Canvas x position
-                    y * BLOCK_SIZE + i * BLOCK_SIZE, // dy: Canvas y position
-                    BLOCK_SIZE, // dWidth: 32px
-                    BLOCK_SIZE // dHeight: 32px
+                    BLOCK_SIZE,
+                    BLOCK_SIZE,
+                    x * BLOCK_SIZE + j * BLOCK_SIZE,
+                    y * BLOCK_SIZE + i * BLOCK_SIZE,
+                    BLOCK_SIZE,
+                    BLOCK_SIZE
                 );
             }
         }
