@@ -84,7 +84,7 @@ function generateGrid(rows, cols) {
 
 function generateShape() {
     const shapeIndex = Math.floor(Math.random() * SHAPES.length);
-    const colorIndex = Math.floor(Math.random() * COLORS);
+    const colorIndex = Math.floor(Math.random() * COLORS) + 1;
 
     return {
         matrix: SHAPES[shapeIndex],
@@ -103,7 +103,7 @@ function renderPiece(piece) {
                 // Crop sprite sheet: (image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight)
                 context.drawImage(
                     spriteSheet,
-                    colorIndex * BLOCK_SIZE,
+                    (colorIndex - 1) * BLOCK_SIZE,
                     0,
                     BLOCK_SIZE, // sWidth: 32px
                     BLOCK_SIZE, // sHeight: 32px
@@ -125,7 +125,7 @@ function renderGraphics() {
             if (grid[i][j]) {
                 context.drawImage(
                     spriteSheet,
-                    (grid[i][j] + 1) * BLOCK_SIZE,
+                    (grid[i][j] - 1) * BLOCK_SIZE,
                     0,
                     BLOCK_SIZE,
                     BLOCK_SIZE,
@@ -177,7 +177,7 @@ function fallingPiece(piece) {
                 if (piece[i][j] === 1) {
                     let p = currentPiece.x+j;
                     let q = currentPiece.y+i;
-                    grid[q][p] = currentPiece.colorIndex + 1; // Most a zöld tűnik el
+                    grid[q][p] = currentPiece.colorIndex;
                 }
             }
         }
