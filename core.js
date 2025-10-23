@@ -70,12 +70,12 @@ function updateGameState() {
     fallingPiece(currentPiece);
 }
 
-function generateGrid(rows, cols){
+function generateGrid(rows, cols) {
     let grid = [];
 
-    for(let i= 0; i < rows; i++){
+    for (let i = 0; i < rows; i++) {
         grid.push([]);
-        for(let j= 0; j < cols; j++){
+        for (let j = 0; j < cols; j++) {
             grid[i].push(0)
         }
     }
