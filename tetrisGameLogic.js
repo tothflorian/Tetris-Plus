@@ -170,16 +170,15 @@ function checkGrid() {
 }
 
 function fallingPiece(piece) {
-    if ( !isColliding(currentPiece.x,currentPiece.y + 1) )
-        currentPiece.y += 1;
-
+    if ( !isColliding(piece.x, piece.y + 1) )
+        piece.y += 1;
     else{
-        let piece = currentPiece.matrix;
-        for (let i = 0; i < piece.length; i++) {
-            for (let j = 0; j < piece[i].length; j++) {
-                if (piece[i][j] === 1) {
-                    let p = currentPiece.x+j;
-                    let q = currentPiece.y+i;
+        let matrix = piece.matrix;
+        for (let i = 0; i < matrix.length; i++) {
+            for (let j = 0; j < matrix[i].length; j++) {
+                if (matrix[i][j] === 1) {
+                    let p = currentPiece.x + j;
+                    let q = currentPiece.y + i;
                     grid[q][p] = currentPiece.colorIndex;
                 }
             }
@@ -187,7 +186,8 @@ function fallingPiece(piece) {
         if (currentPiece.y === 0) {
             alert("Vége van, kicsi.");
             grid = generateGrid(ROWS, COLUMNS);
-            score = 0;
+            scoreCount = 0;
+            score.innerHTML = "Score: " + scoreCount;
         }
         currentPiece = null;
     }
