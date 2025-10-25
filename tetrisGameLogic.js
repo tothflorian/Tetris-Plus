@@ -55,7 +55,7 @@ const spriteSheet = new Image();
 spriteSheet.src = "./res/blocks-sprite-sheet.png";
 
 spriteSheet.onload = () => {
-    updateGameState();
+
 };
 
 setInterval(updateGameState, 1500);
@@ -65,11 +65,11 @@ function updateGameState() {
 
     renderGraphics();
     if (currentPiece)
-        renderPiece(currentPiece);
+        fallingPiece(currentPiece);
     else
         currentPiece = generateShape();
 
-    fallingPiece(currentPiece);
+    renderPiece(currentPiece);
 }
 
 function generateGrid(rows, cols) {
@@ -185,9 +185,9 @@ function fallingPiece(piece) {
         }
         if (currentPiece.y === 0) {
             alert("Vége van, kicsi.");
-            grid = generateGrid(ROWS, COLUMNS);
             scoreCount = 0;
             score.innerHTML = "Score: " + scoreCount;
+            grid = generateGrid(ROWS, COLUMNS);
         }
         currentPiece = null;
     }
@@ -275,13 +275,6 @@ document.addEventListener("keydown", (event) => {
     }
 })
 
-// a játéklogika megy, csak hibás a megjelenítés -> szerintem a JavaScript se tudja miért
-
-// Meg kell oldani, hogy a lefixált darabokat külön rendereljük ki és jelenjenek meg
-
-
-
-
 // lekérni a DOM-ból, visszaírni a DOM-ba
-// aszinkron függvény
+// aszinkron függvény használata
 // README szerű felsorolása, hogy milyen mechanikákat használunk

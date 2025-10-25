@@ -6,8 +6,15 @@
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    <div id="score">Score: 0</div>
-    <canvas id="map" height="640" width="320"></canvas>
+    <div id="menu" class="screen">
+        <h1>TETRIS</h1>
+        <button id="startBtn">Start Game</button>
+    </div>
+    <div id="game" class="screen">
+        <p id="score">Score: 0</p>
+        <canvas id="map" height="640" width="320"></canvas>
+    </div>
 </body>
 <script src="tetrisGameLogic.js"></script>
+<script src="tetrisTimer.js"></script>
 </html>
