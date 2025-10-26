@@ -54,8 +54,6 @@ let currentPiece = null;
 const score = document.querySelector("#score");
 let scoreCount = 0;
 
-
-
 setInterval(updateGameState, 1500);
 
 function updateGameState() {
@@ -181,7 +179,7 @@ function fallingPiece(piece) {
                 }
             }
         }
-        if (currentPiece.y < 1) {
+        if (currentPiece.y === 1) {
             const gameOverEvent = new CustomEvent("gameOver", { detail: { score: scoreCount } });
             document.dispatchEvent(gameOverEvent);
         }
