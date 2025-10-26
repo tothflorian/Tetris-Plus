@@ -39,24 +39,22 @@ const SHAPES = [
 const ROWS = 20;
 const COLUMNS = 10;
 
-let grid = generateGrid(ROWS, COLUMNS);
-let currentPiece = null;
+const BLOCK_SIZE = 32;
+const COLORS = 8;
 
 const canvas = document.querySelector("#map");
 const context = canvas.getContext("2d");
 
-const BLOCK_SIZE = 32;
-const COLORS = 8;
-
-let scoreCount = 0;
-let score = document.querySelector("#score");
-
 const spriteSheet = new Image();
 spriteSheet.src = "./res/blocks-sprite-sheet.png";
 
-spriteSheet.onload = () => {
+let grid = generateGrid(ROWS, COLUMNS);
+let currentPiece = null;
 
-};
+const score = document.querySelector("#score");
+let scoreCount = 0;
+
+const gameOverEvent = new CustomEvent("gameOver", { detail: { score: scoreCount } });
 
 setInterval(updateGameState, 1500);
 
@@ -158,13 +156,13 @@ function checkGrid() {
     if (count < 1)
         return;
     else if (count === 1)
-        scoreCount += 10;
+        scoreCount += 100;
     else if (count === 2)
-        scoreCount += 30;
+        scoreCount += 300;
     else if (count === 3)
-        scoreCount += 50;
+        scoreCount += 500;
     else
-        scoreCount += (count - 3) * 100;
+        scoreCount += (count - 3) * 800;
 
     score.innerHTML = "Score: " + scoreCount;
 }
@@ -183,11 +181,8 @@ function fallingPiece(piece) {
                 }
             }
         }
-        if (currentPiece.y === 0) {
-            alert("Vége van, kicsi.");
-            scoreCount = 0;
-            score.innerHTML = "Score: " + scoreCount;
-            grid = generateGrid(ROWS, COLUMNS);
+        if (currentPiece.y < 1) {
+            document.dispatchEvent(gameOverEvent);
         }
         currentPiece = null;
     }
@@ -273,6 +268,15 @@ document.addEventListener("keydown", (event) => {
         renderGraphics();
         renderPiece(currentPiece);
     }
+})
+
+document.addEventListener("gameOver", (event) => {
+    alert(`It is over, small. Score: ${event.detail.score}`);
+
+    scoreCount = 0;
+    score.innerHTML = "Score: " + scoreCount;
+
+    grid = generateGrid(ROWS, COLUMNS);
 })
 
 // lekérni a DOM-ból, visszaírni a DOM-ba
