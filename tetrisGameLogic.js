@@ -50,39 +50,59 @@ spriteSheet.src = "./res/blocks-sprite-sheet.png";
 
 const score = document.querySelector("#score");
 
-let grid;
-let currentPiece;
-let scoreCount;
-let timer;
+let grid = generateGrid();
+let currentPiece = null;
+let scoreCount = 0;
 
-function updateGameState() {
-    checkGrid();
+let lastTime = 0;
+let dropInterval = 1000;
+let dropCounter = 0;
+let isGameRunning = true;
+
+function gameLoop(time = 0) {
+    if (!isGameRunning) return;
+
+    const deltaTime = time - lastTime;
+    lastTime = time;
+    dropCounter += deltaTime;
+
+    if (dropCounter > dropInterval) {
+        if (currentPiece) {
+            fallingPiece(currentPiece);
+        } else {
+            currentPiece = generateShape();
+        }
+        dropCounter = 0;
+    }
 
     renderGraphics();
-    if (currentPiece)
-        fallingPiece(currentPiece);
-    else
-        currentPiece = generateShape();
+    if (currentPiece) {
+        renderGhostPiece(currentPiece);
+        renderPiece(currentPiece);
+    }
 
-    renderPiece(currentPiece);
+    requestAnimationFrame(gameLoop);
 }
 
-async function newGame() {
-    grid = generateGrid(ROWS, COLUMNS);
-    currentPiece = null;
-
+function newGame() {
+    grid = generateGrid();
+    currentPiece = generateShape();
     scoreCount = 0;
-
-    timer = new tetrisAsyncTimer(1500);
-    await timer.start(updateGameState);
+    dropCounter = 0;
+    lastTime = 0;
+    isGameRunning = true;
+    requestAnimationFrame(gameLoop);
 }
 
-function generateGrid(rows, cols) {
+currentPiece = generateShape();
+requestAnimationFrame(gameLoop);
+
+function generateGrid() {
     let grid = [];
 
-    for (let i = 0; i < rows; i++) {
+    for (let i = 0; i < ROWS; i++) {
         grid.push([]);
-        for (let j = 0; j < cols; j++) {
+        for (let j = 0; j < COLUMNS; j++) {
             grid[i].push(0)
         }
     }
@@ -121,6 +141,41 @@ function renderPiece(piece) {
             }
         }
     }
+}
+
+function getGhostPosition(piece) {
+    let ghostY = piece.y;
+
+    while (!isColliding(piece.x, ghostY + 1, piece.matrix)) {
+        ghostY++;
+    }
+
+    return ghostY;
+}
+
+function renderGhostPiece(piece) {
+    const ghostY = getGhostPosition(piece);
+    const { matrix, x, colorIndex } = piece;
+
+    context.globalAlpha = 0.25;
+    for (let i = 0; i < matrix.length; i++) {
+        for (let j = 0; j < matrix[i].length; j++) {
+            if (matrix[i][j]) {
+                context.drawImage(
+                    spriteSheet,
+                    (colorIndex - 1) * BLOCK_SIZE,
+                    0,
+                    BLOCK_SIZE,
+                    BLOCK_SIZE,
+                    (x + j) * BLOCK_SIZE,
+                    (ghostY + i) * BLOCK_SIZE,
+                    BLOCK_SIZE,
+                    BLOCK_SIZE
+                );
+            }
+        }
+    }
+    context.globalAlpha = 1.0;
 }
 
 function renderGraphics() {
@@ -188,6 +243,9 @@ function fallingPiece(piece) {
                 }
             }
         }
+
+        checkGrid();
+
         if (currentPiece.y === 0) {
             const gameOverEvent = new CustomEvent("gameOver", { detail: { score: scoreCount } });
             document.dispatchEvent(gameOverEvent);
@@ -271,19 +329,16 @@ document.addEventListener("keydown", (event) => {
             rotatePiece(currentPiece);
             break;
     }
-
-    if (currentPiece) {
-        renderGraphics();
-        renderPiece(currentPiece);
-    }
 });
 
 document.addEventListener("gameOver", (event) => {
-    timer.stop();
     alert(`It is over, small. Score: ${event.detail.score}`);
 
     scoreCount = 0;
     score.innerHTML = "Score: " + scoreCount;
+
+    grid = generateGrid();
+    isGameRunning = false;
 });
 
 // lekérni a DOM-ból, visszaírni a DOM-ba
