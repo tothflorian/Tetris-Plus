@@ -48,13 +48,12 @@ const context = canvas.getContext("2d");
 const spriteSheet = new Image();
 spriteSheet.src = "./res/blocks-sprite-sheet.png";
 
-let grid = generateGrid(ROWS, COLUMNS);
-let currentPiece = null;
-
 const score = document.querySelector("#score");
-let scoreCount = 0;
 
-setInterval(updateGameState, 1500);
+let grid;
+let currentPiece;
+let scoreCount;
+let timer;
 
 function updateGameState() {
     checkGrid();
@@ -66,6 +65,16 @@ function updateGameState() {
         currentPiece = generateShape();
 
     renderPiece(currentPiece);
+}
+
+async function newGame() {
+    grid = generateGrid(ROWS, COLUMNS);
+    currentPiece = null;
+
+    scoreCount = 0;
+
+    timer = new tetrisAsyncTimer(1500);
+    await timer.start(updateGameState);
 }
 
 function generateGrid(rows, cols) {
@@ -267,16 +276,15 @@ document.addEventListener("keydown", (event) => {
         renderGraphics();
         renderPiece(currentPiece);
     }
-})
+});
 
 document.addEventListener("gameOver", (event) => {
+    timer.stop();
     alert(`It is over, small. Score: ${event.detail.score}`);
 
     scoreCount = 0;
     score.innerHTML = "Score: " + scoreCount;
-
-    grid = generateGrid(ROWS, COLUMNS);
-})
+});
 
 // lekérni a DOM-ból, visszaírni a DOM-ba
 // aszinkron függvény használata
