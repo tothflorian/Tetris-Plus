@@ -179,7 +179,7 @@ function fallingPiece(piece) {
                 }
             }
         }
-        if (currentPiece.y === 1) {
+        if (currentPiece.y === 0) {
             const gameOverEvent = new CustomEvent("gameOver", { detail: { score: scoreCount } });
             document.dispatchEvent(gameOverEvent);
         }
