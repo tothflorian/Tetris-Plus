@@ -55,9 +55,23 @@ let currentPiece = null;
 let scoreCount = 0;
 
 let lastTime = 0;
-let dropInterval = 1000;
+let dropInterval = 1000; // base + 10 * fallenPiecesSum
 let dropCounter = 0;
 let isGameRunning = true;
+
+function newGame() {
+    grid = generateGrid();
+    currentPiece = generateShape();
+    refreshScoreboard(0, false);
+    dropInterval = 1200;
+    dropCounter = 0;
+    lastTime = 0;
+    isGameRunning = true;
+    requestAnimationFrame(gameLoop);
+}
+
+currentPiece = generateShape();
+requestAnimationFrame(gameLoop);
 
 function gameLoop(time = 0) {
     if (!isGameRunning) return;
@@ -84,18 +98,14 @@ function gameLoop(time = 0) {
     requestAnimationFrame(gameLoop);
 }
 
-function newGame() {
-    grid = generateGrid();
-    currentPiece = generateShape();
-    scoreCount = 0;
-    dropCounter = 0;
-    lastTime = 0;
-    isGameRunning = true;
-    requestAnimationFrame(gameLoop);
-}
+function refreshScoreboard(currentScore, isNotExact = true) {
+    if (isNotExact)
+        scoreCount += currentScore;
+    else
+        scoreCount = currentScore;
 
-currentPiece = generateShape();
-requestAnimationFrame(gameLoop);
+    score.innerHTML = "Score: " + scoreCount;
+}
 
 function generateGrid() {
     let grid = [];
@@ -215,18 +225,15 @@ function checkGrid() {
         }
     }
 
-    if (count < 1)
-        return;
+    if (count < 1) {}
     else if (count === 1)
-        scoreCount += 100;
+        refreshScoreboard(100);
     else if (count === 2)
-        scoreCount += 300;
+        refreshScoreboard(300);
     else if (count === 3)
-        scoreCount += 500;
+        refreshScoreboard(500);
     else
-        scoreCount += (count - 3) * 800;
-
-    score.innerHTML = "Score: " + scoreCount;
+        refreshScoreboard( (count - 3) * 800 );
 }
 
 function fallingPiece(piece) {
@@ -331,19 +338,23 @@ document.addEventListener("keydown", (event) => {
     }
 });
 
-document.addEventListener("click", (event) => {
-    let newGameButton = document.querySelector("#startBtn");
+document.body.addEventListener("click", (event) => {
+    if (event.target.matches("#new-game-button")) {
+        alert("Új játék sikeresen létrehozva!");
+        newGame();
+    }
+    else if (event.target.matches("")) {
 
-    if (event.button === newGameButton) {
-        
+    }
+    else if (event.target.matches("")) {
+
     }
 });
 
 document.addEventListener("gameOver", (event) => {
     alert(`It is over, small. Score: ${event.detail.score}`);
 
-    scoreCount = 0;
-    score.innerHTML = "Score: " + scoreCount;
+    refreshScoreboard(0, false);
 
     grid = generateGrid();
     isGameRunning = false;
