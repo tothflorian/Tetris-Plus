@@ -36,6 +36,12 @@ const SHAPES = [
     ]
 ]
 
+const Difficulty = {
+    EASY: "easy",
+    MEDIUM: "medium",
+    HARD: "hard"
+};
+
 const ROWS = 20;
 const COLUMNS = 10;
 
@@ -59,7 +65,10 @@ let dropInterval = 1000; // base + 10 * fallenPiecesSum
 let dropCounter = 0;
 let isGameRunning = true;
 
+let gameDisplay = document.querySelector("#game");
+
 function newGame() {
+    gameDisplay.style.display = "flex";
     grid = generateGrid();
     currentPiece = generateShape();
     refreshScoreboard(0, false);
@@ -67,6 +76,7 @@ function newGame() {
     dropCounter = 0;
     lastTime = 0;
     isGameRunning = true;
+
     requestAnimationFrame(gameLoop);
 }
 
