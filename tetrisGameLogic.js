@@ -331,6 +331,14 @@ document.addEventListener("keydown", (event) => {
     }
 });
 
+document.addEventListener("click", (event) => {
+    let newGameButton = document.querySelector("#startBtn");
+
+    if (event.button === newGameButton) {
+        
+    }
+});
+
 document.addEventListener("gameOver", (event) => {
     alert(`It is over, small. Score: ${event.detail.score}`);
 
