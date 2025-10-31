@@ -37,9 +37,9 @@ const SHAPES = [
 ]
 
 const Difficulty = {
-    EASY: "easy",
-    MEDIUM: "medium",
-    HARD: "hard"
+    EASY: [1500, 5],
+    MEDIUM: [1250, 10],
+    HARD: [1000, 15]
 };
 
 const ROWS = 20;
@@ -59,24 +59,46 @@ const score = document.querySelector("#score");
 let grid = generateGrid();
 let currentPiece = null;
 let scoreCount = 0;
+let gameDifficulty = Difficulty.MEDIUM;
 
+let dropInterval;
+let dropIncrease;
 let lastTime = 0;
-let dropInterval = 1000; // base + 10 * fallenPiecesSum
 let dropCounter = 0;
 let isGameRunning = true;
 
-let gameDisplay = document.querySelector("#game");
+const gameDisplay = document.querySelector("#game");
+const menuDisplay = document.querySelector("#menu");
+const difficultyMenuDisplay = document.querySelector("#difficulty-menu");
 
 function newGame() {
+    menuDisplay.style.display = "none";
     gameDisplay.style.display = "flex";
     grid = generateGrid();
     currentPiece = generateShape();
     refreshScoreboard(0, false);
-    dropInterval = 1200;
+
+    dropInterval = gameDifficulty[0];
+    dropIncrease = gameDifficulty[1];
     dropCounter = 0;
     lastTime = 0;
     isGameRunning = true;
 
+    requestAnimationFrame(gameLoop);
+}
+
+function pauseGame() {
+    isGameRunning = false;
+
+    gameDisplay.style.display = "none";
+    menuDisplay.style.display = "flex";
+}
+
+function resumeGame() {
+    gameDisplay.style.display = "flex";
+    menuDisplay.style.display = "none";
+
+    isGameRunning = true;
     requestAnimationFrame(gameLoop);
 }
 
@@ -235,15 +257,14 @@ function checkGrid() {
         }
     }
 
-    if (count < 1) {}
-    else if (count === 1)
+    if (count === 1)
         refreshScoreboard(100);
     else if (count === 2)
         refreshScoreboard(300);
     else if (count === 3)
         refreshScoreboard(500);
-    else
-        refreshScoreboard( (count - 3) * 800 );
+    else if (count === 4)
+        refreshScoreboard(800);
 }
 
 function fallingPiece(piece) {
@@ -267,7 +288,9 @@ function fallingPiece(piece) {
             const gameOverEvent = new CustomEvent("gameOver", { detail: { score: scoreCount } });
             document.dispatchEvent(gameOverEvent);
         }
+
         currentPiece = null;
+        dropInterval -= dropIncrease;
     }
 }
 
@@ -345,20 +368,31 @@ document.addEventListener("keydown", (event) => {
         case "ArrowUp":
             rotatePiece(currentPiece);
             break;
+        case "Escape":
+            if (isGameRunning)
+                pauseGame();
+            break;
     }
 });
 
 document.body.addEventListener("click", (event) => {
     if (event.target.matches("#new-game-button")) {
-        alert("Új játék sikeresen létrehozva!");
         newGame();
     }
-    else if (event.target.matches("")) {
+    else if (event.target.matches("#resume-button")) {
+        resumeGame();
+    }
+    else if (event.target.matches("#difficulty-button")) {
+        menuDisplay.style.display = "none";
+        difficultyMenuDisplay.style.display = "flex";
+    }
+    else if (event.target.matches("#leaderboards-button")) {
 
     }
-    else if (event.target.matches("")) {
-
-    }
+    /*switch (event.target) {
+        case "#new-game-button":
+            break;
+    }*/
 });
 
 document.addEventListener("gameOver", (event) => {
@@ -368,6 +402,7 @@ document.addEventListener("gameOver", (event) => {
 
     grid = generateGrid();
     isGameRunning = false;
+    pauseGame();
 });
 
 // lekérni a DOM-ból, visszaírni a DOM-ba

@@ -14,6 +14,12 @@ body {
     flex-direction: column;
     height: 100vh;
 }
+#game {
+    display: none;
+}
+#difficulty-menu {
+    display: none;
+}
 
 .screen {
     flex-direction: column;
@@ -23,17 +29,54 @@ body {
     padding: 0;
 }
 
-#menu {
+button {
+    font-family: monospace;
+    font-size: 180%;
+    width: 210%;
+    padding: 20%;
+    margin: 10% 0 10% 0;
+    background-color: transparent;
+    background-size: contain;
+    background-repeat: no-repeat;
+    border: none;
+}
+
+.diff-btn {
+    background-image: url("./res/button-lightblue.png");
+}
+.diff-btn:hover {
+    background-image: url("./res/button-blue.png");
+}
+
+/*BUTTONS*/
+
+#resume-button {
+    background-image: url("./res/button-yellow.png");
+}
+#new-game-button {
+    background-image: url("./res/button-teal.png");
+}
+#difficulty-button {
+    background-image: url("./res/button-lightblue.png");
+}
+#leaderboards-button {
+    background-image: url("./res/button-pink.png");
+}
+
+/*TRANSITIONS*/
+
+#resume-button:hover {
+    background-image: url("./res/button-orange.png");
 
 }
-#pause {
-    display: none;
+#new-game-button:hover {
+    background-image: url("./res/button-green.png");
 }
-#game {
-    display: none;
+#difficulty-button:hover {
+    background-image: url("./res/button-blue.png");
 }
-#gameOver {
-    display: none;
+#leaderboards-button:hover {
+    background-image: url("./res/button-purple.png");
 }
 
 #score {
