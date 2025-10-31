@@ -65,11 +65,16 @@ let dropInterval;
 let dropIncrease;
 let lastTime = 0;
 let dropCounter = 0;
-let isGameRunning = true;
+let isGameRunning = false;
 
 const gameDisplay = document.querySelector("#game");
 const menuDisplay = document.querySelector("#menu");
 const difficultyMenuDisplay = document.querySelector("#difficulty-menu");
+const displays = [gameDisplay, menuDisplay, difficultyMenuDisplay];
+
+function selectActiveTab(active) {
+    displays.forEach(function(p1: Element,p2: number,p3: Element[]){}, undefined)
+}
 
 function newGame() {
     menuDisplay.style.display = "none";
@@ -389,6 +394,16 @@ document.body.addEventListener("click", (event) => {
     else if (event.target.matches("#leaderboards-button")) {
 
     }
+    else if (event.target.matches("#easy-button"))
+        gameDifficulty = Difficulty.EASY();
+    else if (event.target.matches("#medium-button"))
+        gameDifficulty = Difficulty.MEDIUM();
+    else if (event.target.matches("#hard-button"))
+        gameDifficulty = Difficulty.HARD();
+    else if (event.target.matches("#back-button")) {
+
+    }
+
     /*switch (event.target) {
         case "#new-game-button":
             break;
