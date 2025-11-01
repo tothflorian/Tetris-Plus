@@ -13,11 +13,18 @@ body {
     justify-content: space-evenly;
     flex-direction: column;
     height: 100vh;
+    font-size: 150%;
 }
 #game {
     display: none;
 }
+#pause-menu {
+    display: none;
+}
 #difficulty-menu {
+    display: none;
+}
+#leaderboards-menu {
     display: none;
 }
 
@@ -28,8 +35,9 @@ body {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin: 2%;
+    margin: 1%;
 }
+
 .tab {
     position: fixed;
     flex-direction: column;
@@ -40,27 +48,58 @@ body {
 }
 
 button {
+    position: relative;
     font-family: monospace;
-    font-size: clamp(1.5rem, 3vw, 2.7rem);
-    padding: 15px;
-    margin: 10% 0 10% 0;
-    background-color: transparent;
+    font-size: clamp(1rem, 2vw, 1.4rem);
+    width: clamp(150px, 25vw, 300px);
+    color: white;
+    background: #111;
     background-position: center;
-    background-size: contain;
-    background-repeat: no-repeat;
     border: none;
+    border-radius: 12px;
+    box-shadow: 0 0 10px #ff00ff, 0 0 20px #00ffff;
+    padding: 0.8em 1.2em;
+    margin: 5%;
+    cursor: pointer;
+    z-index: 0;
+}
+
+/* the gradient border */
+button::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 2px; /* border thickness */
+    border-radius: inherit;
+    background: linear-gradient(90deg, #ff00ff, #00ffff, #ff00ff);
+    -webkit-mask:
+            linear-gradient(#fff 0 0) content-box,
+            linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    z-index: -1;
+}
+
+@keyframes border-spin {
+    to { background-position: 200% center; }
+}
+
+button::before {
+    background: linear-gradient(90deg, #ff00ff, #00ffff, #ff00ff);
+    background-size: 200% auto;
+    animation: border-spin 5s linear infinite;
 }
 
 .diff-btn {
     background-image: url("./res/button-lightblue.png");
 }
 .diff-btn:hover {
-    background-image: url("./res/button-blue.png");
+    background-image: url("./res/button-darkblue.png");
 }
 
 /*BUTTONS*/
 
-#resume-button {
+#pause-resume-button {
     background-image: url("./res/button-yellow.png");
 }
 #new-game-button {
@@ -69,13 +108,13 @@ button {
 #difficulty-button {
     background-image: url("./res/button-lightblue.png");
 }
-#leaderboards-button {
+#leaderboards-button, #pause-quit-button {
     background-image: url("./res/button-pink.png");
 }
 
 /*TRANSITIONS*/
 
-#resume-button:hover {
+#pause-resume-button:hover {
     background-image: url("./res/button-orange.png");
 
 }
@@ -83,9 +122,9 @@ button {
     background-image: url("./res/button-green.png");
 }
 #difficulty-button:hover {
-    background-image: url("./res/button-blue.png");
+    background-image: url("./res/button-darkblue.png");
 }
-#leaderboards-button:hover {
+#leaderboards-button:hover, #pause-quit-button:hover {
     background-image: url("./res/button-purple.png");
 }
 

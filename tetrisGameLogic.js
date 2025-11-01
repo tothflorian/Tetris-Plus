@@ -37,9 +37,9 @@ const SHAPES = [
 ]
 
 const Difficulty = {
-    EASY: [1500, 5],
-    MEDIUM: [1250, 10],
-    HARD: [1000, 15]
+    EASY: [1500, 5, "EASY"],
+    MEDIUM: [1250, 10, "MEDIUM"],
+    HARD: [1000, 15, "HARD"]
 };
 
 const ROWS = 20;
@@ -67,18 +67,34 @@ let lastTime = 0;
 let dropCounter = 0;
 let isGameRunning = false;
 
+//#region DOM Elements
+
 const gameDisplay = document.querySelector("#game");
-const menuDisplay = document.querySelector("#menu");
+const mainMenuDisplay = document.querySelector("#main-menu");
+const pauseMenuDisplay = document.querySelector("#pause-menu");
 const difficultyMenuDisplay = document.querySelector("#difficulty-menu");
-const displays = [gameDisplay, menuDisplay, difficultyMenuDisplay];
+const leaderboardsMenuDisplay = document.querySelector("#leaderboards-menu");
+const displays = [gameDisplay, mainMenuDisplay, pauseMenuDisplay, difficultyMenuDisplay, leaderboardsMenuDisplay];
+
+const difficultyUIText = document.querySelector("#difficulty-ui-text");
+
+const easyButton = document.querySelector("#easy-button");
+const mediumButton = document.querySelector("#medium-button");
+const hardButton = document.querySelector("#hard-button");
+
+//#endregion
 
 function selectActiveTab(active) {
-    displays.forEach(function(p1: Element,p2: number,p3: Element[]){}, undefined)
+    displays.forEach(element => {
+        if (!(element === active) )
+            element.style.display = "none";
+        else
+            element.style.display = "flex";
+    });
 }
 
 function newGame() {
-    menuDisplay.style.display = "none";
-    gameDisplay.style.display = "flex";
+    selectActiveTab(gameDisplay);
     grid = generateGrid();
     currentPiece = generateShape();
     refreshScoreboard(0, false);
@@ -95,13 +111,11 @@ function newGame() {
 function pauseGame() {
     isGameRunning = false;
 
-    gameDisplay.style.display = "none";
-    menuDisplay.style.display = "flex";
+    selectActiveTab(pauseMenuDisplay);
 }
 
 function resumeGame() {
-    gameDisplay.style.display = "flex";
-    menuDisplay.style.display = "none";
+    selectActiveTab(gameDisplay);
 
     isGameRunning = true;
     requestAnimationFrame(gameLoop);
@@ -384,25 +398,34 @@ document.body.addEventListener("click", (event) => {
     if (event.target.matches("#new-game-button")) {
         newGame();
     }
-    else if (event.target.matches("#resume-button")) {
+    else if (event.target.matches("#pause-resume-button")) {
         resumeGame();
     }
+    else if (event.target.matches("#pause-quit-button")) {
+        selectActiveTab(mainMenuDisplay);
+    }
     else if (event.target.matches("#difficulty-button")) {
-        menuDisplay.style.display = "none";
-        difficultyMenuDisplay.style.display = "flex";
+        selectActiveTab(difficultyMenuDisplay);
     }
     else if (event.target.matches("#leaderboards-button")) {
-
+        selectActiveTab(leaderboardsMenuDisplay);
     }
-    else if (event.target.matches("#easy-button"))
-        gameDifficulty = Difficulty.EASY();
-    else if (event.target.matches("#medium-button"))
-        gameDifficulty = Difficulty.MEDIUM();
-    else if (event.target.matches("#hard-button"))
-        gameDifficulty = Difficulty.HARD();
-    else if (event.target.matches("#back-button")) {
-
+    else if (event.target.matches("#easy-button")) {
+        gameDifficulty = Difficulty.EASY;
+        difficultyUIText.innerHTML = "Difficulty: " + gameDifficulty[2];
     }
+    else if (event.target.matches("#medium-button")) {
+        gameDifficulty = Difficulty.MEDIUM;
+        difficultyUIText.innerHTML = "Difficulty: " + gameDifficulty[2];
+    }
+    else if (event.target.matches("#hard-button")) {
+        gameDifficulty = Difficulty.HARD;
+        difficultyUIText.innerHTML = "Difficulty: " + gameDifficulty[2];
+    }
+    else if (event.target.matches("#difficulty-back-button"))
+        selectActiveTab(mainMenuDisplay);
+    else if (event.target.matches("#leaderboards-back-button"))
+        selectActiveTab(mainMenuDisplay);
 
     /*switch (event.target) {
         case "#new-game-button":

@@ -1,2 +1,3 @@
 const themeSong = new Audio("./res/asd.mp3");
-themeSong.play();
+themeSong.loop = true;
+themeSong.play().then(() => {});
