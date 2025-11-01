@@ -1,3 +1,26 @@
-const themeSong = new Audio("./res/asd.mp3");
-themeSong.loop = true;
-themeSong.play().then(() => {});
+const volumeSlider = document.querySelector("#volume-range");
+const musicPauseButton = document.querySelector("#music-pause-button");
+const theme = new Audio("./res/theme.mp3");
+
+theme.autoplay = true;
+theme.loop = true;
+theme.volume = volumeSlider.value;
+
+window.addEventListener('DOMContentLoaded', () => {
+    theme.play().catch(() => theme.pause());
+});
+
+volumeSlider.addEventListener("input", () => {
+    theme.volume = volumeSlider.value;
+});
+
+musicPauseButton.addEventListener("click", () => {
+    if (theme.paused) {
+        theme.play().catch(() => theme.pause());
+        musicPauseButton.textContent = "⏸️";
+    }
+    else {
+        theme.pause();
+        musicPauseButton.textContent = "▶️";
+    }
+});

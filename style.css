@@ -35,6 +35,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    padding: 1%;
     margin: 1%;
 }
 
@@ -143,4 +144,19 @@ button::before {
     height: 32px;
     position: absolute;
     background-size: cover;
+}
+
+#volume-range {
+    accent-color: orange;
+}
+#music-pause-button {
+    all: unset;
+    display: inline-block;
+    background-color: transparent;
+    color: white;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.2s;
 }

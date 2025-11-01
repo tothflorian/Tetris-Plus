@@ -37,10 +37,11 @@ const SHAPES = [
 ]
 
 const Difficulty = {
-    EASY: [1500, 5, "EASY"],
-    MEDIUM: [1250, 10, "MEDIUM"],
-    HARD: [1000, 15, "HARD"]
+    EASY: [1500, 5, "EASY", document.querySelector("#easy-button")],
+    MEDIUM: [1250, 10, "MEDIUM", document.querySelector("#medium-button")],
+    HARD: [1000, 15, "HARD", document.querySelector("#hard-button")]
 };
+const difficulties = [Difficulty.EASY, Difficulty.MEDIUM, Difficulty.HARD];
 
 const ROWS = 20;
 const COLUMNS = 10;
@@ -48,13 +49,8 @@ const COLUMNS = 10;
 const BLOCK_SIZE = 32;
 const COLORS = 8;
 
-const canvas = document.querySelector("#map");
-const context = canvas.getContext("2d");
-
 const spriteSheet = new Image();
 spriteSheet.src = "./res/blocks-sprite-sheet.png";
-
-const score = document.querySelector("#score");
 
 let grid = generateGrid();
 let currentPiece = null;
@@ -69,6 +65,11 @@ let isGameRunning = false;
 
 //#region DOM Elements
 
+const canvas = document.querySelector("#map");
+const context = canvas.getContext("2d");
+
+const score = document.querySelector("#score");
+
 const gameDisplay = document.querySelector("#game");
 const mainMenuDisplay = document.querySelector("#main-menu");
 const pauseMenuDisplay = document.querySelector("#pause-menu");
@@ -76,11 +77,8 @@ const difficultyMenuDisplay = document.querySelector("#difficulty-menu");
 const leaderboardsMenuDisplay = document.querySelector("#leaderboards-menu");
 const displays = [gameDisplay, mainMenuDisplay, pauseMenuDisplay, difficultyMenuDisplay, leaderboardsMenuDisplay];
 
-const difficultyUIText = document.querySelector("#difficulty-ui-text");
-
-const easyButton = document.querySelector("#easy-button");
-const mediumButton = document.querySelector("#medium-button");
-const hardButton = document.querySelector("#hard-button");
+const difficultyUIText = document.querySelector("#ui-difficulty");
+const previousScoreText = document.querySelector("#previous-score");
 
 //#endregion
 
@@ -91,6 +89,19 @@ function selectActiveTab(active) {
         else
             element.style.display = "flex";
     });
+}
+
+function setActiveDifficulty(active) {
+    difficulties.forEach(difficulty => {
+        if (!(difficulty === active)) {
+            difficulty[3].style.backgroundImage = "url('./res/button-lightblue.png')";
+        }
+        else {
+            gameDifficulty = active;
+            difficultyUIText.innerHTML = "Difficulty: " + gameDifficulty[2];
+            gameDifficulty[3].style.backgroundImage = "url('./res/button-blue.png')";
+        }
+    })
 }
 
 function newGame() {
@@ -403,24 +414,23 @@ document.body.addEventListener("click", (event) => {
     }
     else if (event.target.matches("#pause-quit-button")) {
         selectActiveTab(mainMenuDisplay);
+        previousScoreText.innerHTML = "Previous score: " + scoreCount;
     }
     else if (event.target.matches("#difficulty-button")) {
         selectActiveTab(difficultyMenuDisplay);
+        gameDifficulty[3].style.backgroundImage = "url('./res/button-pink.png')";
     }
     else if (event.target.matches("#leaderboards-button")) {
         selectActiveTab(leaderboardsMenuDisplay);
     }
     else if (event.target.matches("#easy-button")) {
-        gameDifficulty = Difficulty.EASY;
-        difficultyUIText.innerHTML = "Difficulty: " + gameDifficulty[2];
+        setActiveDifficulty(Difficulty.EASY);
     }
     else if (event.target.matches("#medium-button")) {
-        gameDifficulty = Difficulty.MEDIUM;
-        difficultyUIText.innerHTML = "Difficulty: " + gameDifficulty[2];
+        setActiveDifficulty(Difficulty.MEDIUM);
     }
     else if (event.target.matches("#hard-button")) {
-        gameDifficulty = Difficulty.HARD;
-        difficultyUIText.innerHTML = "Difficulty: " + gameDifficulty[2];
+        setActiveDifficulty(Difficulty.HARD);
     }
     else if (event.target.matches("#difficulty-back-button"))
         selectActiveTab(mainMenuDisplay);
@@ -435,6 +445,8 @@ document.body.addEventListener("click", (event) => {
 
 document.addEventListener("gameOver", (event) => {
     alert(`It is over, small. Score: ${event.detail.score}`);
+
+    previousScoreText.innerHTML = "Previous score: " + scoreCount;
 
     refreshScoreboard(0, false);
 
