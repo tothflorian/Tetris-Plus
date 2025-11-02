@@ -40,8 +40,7 @@ const Difficulty = {
     EASY: [1500, 5, "EASY", document.querySelector("#easy-button")],
     MEDIUM: [1250, 10, "MEDIUM", document.querySelector("#medium-button")],
     HARD: [1000, 15, "HARD", document.querySelector("#hard-button")]
-};
-const difficulties = [Difficulty.EASY, Difficulty.MEDIUM, Difficulty.HARD];
+}
 
 const ROWS = 20;
 const COLUMNS = 10;
@@ -89,19 +88,6 @@ function selectActiveTab(active) {
         else
             element.style.display = "flex";
     });
-}
-
-function setActiveDifficulty(active) {
-    difficulties.forEach(difficulty => {
-        if (!(difficulty === active)) {
-            difficulty[3].style.backgroundImage = "url('./res/button-lightblue.png')";
-        }
-        else {
-            gameDifficulty = active;
-            difficultyUIText.innerHTML = "Difficulty: " + gameDifficulty[2];
-            gameDifficulty[3].style.backgroundImage = "url('./res/button-blue.png')";
-        }
-    })
 }
 
 function newGame() {
@@ -418,19 +404,21 @@ document.body.addEventListener("click", (event) => {
     }
     else if (event.target.matches("#difficulty-button")) {
         selectActiveTab(difficultyMenuDisplay);
-        gameDifficulty[3].style.backgroundImage = "url('./res/button-pink.png')";
     }
     else if (event.target.matches("#leaderboards-button")) {
         selectActiveTab(leaderboardsMenuDisplay);
     }
     else if (event.target.matches("#easy-button")) {
-        setActiveDifficulty(Difficulty.EASY);
+        gameDifficulty = Difficulty.EASY;
+        difficultyUIText.innerHTML = "Difficulty: " + gameDifficulty[2];
     }
     else if (event.target.matches("#medium-button")) {
-        setActiveDifficulty(Difficulty.MEDIUM);
+        gameDifficulty = Difficulty.MEDIUM;
+        difficultyUIText.innerHTML = "Difficulty: " + gameDifficulty[2];
     }
     else if (event.target.matches("#hard-button")) {
-        setActiveDifficulty(Difficulty.HARD);
+        gameDifficulty = Difficulty.HARD;
+        difficultyUIText.innerHTML = "Difficulty: " + gameDifficulty[2];
     }
     else if (event.target.matches("#difficulty-back-button"))
         selectActiveTab(mainMenuDisplay);
@@ -444,15 +432,14 @@ document.body.addEventListener("click", (event) => {
 });
 
 document.addEventListener("gameOver", (event) => {
-    alert(`It is over, small. Score: ${event.detail.score}`);
-
+    setTimeout(() => {}, 1500);
     previousScoreText.innerHTML = "Previous score: " + scoreCount;
 
     refreshScoreboard(0, false);
 
     grid = generateGrid();
     isGameRunning = false;
-    pauseGame();
+    selectActiveTab(mainMenuDisplay);
 });
 
 // lekérni a DOM-ból, visszaírni a DOM-ba
