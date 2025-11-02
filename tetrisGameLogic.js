@@ -68,27 +68,9 @@ const canvas = document.querySelector("#map");
 const context = canvas.getContext("2d");
 
 const score = document.querySelector("#score");
-
-const gameDisplay = document.querySelector("#game");
-const mainMenuDisplay = document.querySelector("#main-menu");
-const pauseMenuDisplay = document.querySelector("#pause-menu");
-const difficultyMenuDisplay = document.querySelector("#difficulty-menu");
-const leaderboardsMenuDisplay = document.querySelector("#leaderboards-menu");
-const displays = [gameDisplay, mainMenuDisplay, pauseMenuDisplay, difficultyMenuDisplay, leaderboardsMenuDisplay];
-
-const difficultyUIText = document.querySelector("#ui-difficulty");
 const previousScoreText = document.querySelector("#previous-score");
 
 //#endregion
-
-function selectActiveTab(active) {
-    displays.forEach(element => {
-        if (!(element === active) )
-            element.style.display = "none";
-        else
-            element.style.display = "flex";
-    });
-}
 
 function newGame() {
     selectActiveTab(gameDisplay);
@@ -102,19 +84,6 @@ function newGame() {
     lastTime = 0;
     isGameRunning = true;
 
-    requestAnimationFrame(gameLoop);
-}
-
-function pauseGame() {
-    isGameRunning = false;
-
-    selectActiveTab(pauseMenuDisplay);
-}
-
-function resumeGame() {
-    selectActiveTab(gameDisplay);
-
-    isGameRunning = true;
     requestAnimationFrame(gameLoop);
 }
 
@@ -366,69 +335,30 @@ function isColliding(x, y, rotatedPiece){
 }
 
 document.addEventListener("keydown", (event) => {
-    switch (event.key)
-    {
-        case "a":
-        case "ArrowLeft":
-            movePieceLeft(currentPiece);
-            break;
-        case "d":
-        case "ArrowRight":
-            movePieceRight(currentPiece);
-            break;
-        case "s":
-        case "ArrowDown":
-            fallingPiece(currentPiece);
-            break;
-        case "w":
-        case "ArrowUp":
-            rotatePiece(currentPiece);
-            break;
-        case "Escape":
-            if (isGameRunning)
-                pauseGame();
-            break;
+    if (activeTab === gameDisplay) {
+        switch (event.key) {
+            case "a":
+            case "ArrowLeft":
+                movePieceLeft(currentPiece);
+                break;
+            case "d":
+            case "ArrowRight":
+                movePieceRight(currentPiece);
+                break;
+            case "s":
+            case "ArrowDown":
+                fallingPiece(currentPiece);
+                break;
+            case "w":
+            case "ArrowUp":
+                rotatePiece(currentPiece);
+                break;
+            case "Escape":
+                if (isGameRunning)
+                    pauseGame();
+                break;
+        }
     }
-});
-
-document.body.addEventListener("click", (event) => {
-    if (event.target.matches("#new-game-button")) {
-        newGame();
-    }
-    else if (event.target.matches("#pause-resume-button")) {
-        resumeGame();
-    }
-    else if (event.target.matches("#pause-quit-button")) {
-        selectActiveTab(mainMenuDisplay);
-        previousScoreText.innerHTML = "Previous score: " + scoreCount;
-    }
-    else if (event.target.matches("#difficulty-button")) {
-        selectActiveTab(difficultyMenuDisplay);
-    }
-    else if (event.target.matches("#leaderboards-button")) {
-        selectActiveTab(leaderboardsMenuDisplay);
-    }
-    else if (event.target.matches("#easy-button")) {
-        gameDifficulty = Difficulty.EASY;
-        difficultyUIText.innerHTML = "Difficulty: " + gameDifficulty[2];
-    }
-    else if (event.target.matches("#medium-button")) {
-        gameDifficulty = Difficulty.MEDIUM;
-        difficultyUIText.innerHTML = "Difficulty: " + gameDifficulty[2];
-    }
-    else if (event.target.matches("#hard-button")) {
-        gameDifficulty = Difficulty.HARD;
-        difficultyUIText.innerHTML = "Difficulty: " + gameDifficulty[2];
-    }
-    else if (event.target.matches("#difficulty-back-button"))
-        selectActiveTab(mainMenuDisplay);
-    else if (event.target.matches("#leaderboards-back-button"))
-        selectActiveTab(mainMenuDisplay);
-
-    /*switch (event.target) {
-        case "#new-game-button":
-            break;
-    }*/
 });
 
 document.addEventListener("gameOver", (event) => {
@@ -442,6 +372,5 @@ document.addEventListener("gameOver", (event) => {
     selectActiveTab(mainMenuDisplay);
 });
 
-// lekérni a DOM-ból, visszaírni a DOM-ba
 // aszinkron függvény használata
 // README szerű felsorolása, hogy milyen mechanikákat használunk
