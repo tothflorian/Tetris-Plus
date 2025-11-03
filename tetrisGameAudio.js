@@ -1,6 +1,7 @@
 const volumeSlider = document.querySelector("#volume-range");
 const musicPauseButton = document.querySelector("#music-pause-button");
 const theme = new Audio("./res/theme.mp3");
+const clickSound = new Audio("./res/button-click.mp3");
 
 theme.autoplay = true;
 theme.loop = true;
@@ -13,6 +14,10 @@ window.addEventListener('DOMContentLoaded', () => {
 volumeSlider.addEventListener("input", () => {
     theme.volume = volumeSlider.value;
 });
+
+document.body.addEventListener("click", () => {
+    clickSound.play().catch(() => clickSound.pause());
+})
 
 musicPauseButton.addEventListener("click", () => {
     if (theme.paused) {

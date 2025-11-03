@@ -37,6 +37,10 @@
     <div id="game" class="tab">
         <p id="score">Score: 0</p>
         <canvas id="map" height="640" width="320"></canvas>
+        <div id="next-container">
+            <div id="next-label">Next piece</div>
+            <canvas id="next-piece" height="128" width="128"></canvas>
+        </div>
     </div>
     <div id="leaderboards-menu" class="tab">
         <h1>LEADERBOARDS</h1>
@@ -45,6 +49,7 @@
     </div>
 </body>
 <script src="tetrisMenu.js"></script>
+<script src="tetrisGamePiece.js"></script>
 <script src="tetrisGameLogic.js"></script>
 <script src="tetrisGameAudio.js"></script>
 </html>

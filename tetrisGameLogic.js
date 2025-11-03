@@ -53,9 +53,11 @@ spriteSheet.src = "./res/blocks-sprite-sheet.png";
 
 let grid = generateGrid();
 let currentPiece = null;
+let nextPiece = null;
 let scoreCount = 0;
 let gameDifficulty = Difficulty.MEDIUM;
 
+let pieceSum;
 let dropInterval;
 let dropIncrease;
 let lastTime = 0;
@@ -75,9 +77,11 @@ const previousScoreText = document.querySelector("#previous-score");
 function newGame() {
     selectActiveTab(gameDisplay);
     grid = generateGrid();
-    currentPiece = generateShape();
+    currentPiece = new Piece();
+    nextPiece = new Piece();
     refreshScoreboard(0, false);
 
+    pieceSum = 0;
     dropInterval = gameDifficulty[0];
     dropIncrease = gameDifficulty[1];
     dropCounter = 0;
@@ -87,7 +91,6 @@ function newGame() {
     requestAnimationFrame(gameLoop);
 }
 
-currentPiece = generateShape();
 requestAnimationFrame(gameLoop);
 
 function gameLoop(time = 0) {
@@ -101,8 +104,10 @@ function gameLoop(time = 0) {
         if (currentPiece) {
             fallingPiece(currentPiece);
         } else {
-            currentPiece = generateShape();
+            currentPiece = nextPiece;
+            nextPiece = new Piece();
         }
+        pieceSum++;
         dropCounter = 0;
     }
 
@@ -134,18 +139,6 @@ function generateGrid() {
         }
     }
     return grid;
-}
-
-function generateShape() {
-    const shapeIndex = Math.floor(Math.random() * SHAPES.length);
-    const colorIndex = Math.floor(Math.random() * COLORS) + 1;
-
-    return {
-        matrix: SHAPES[shapeIndex],
-        colorIndex: colorIndex,
-        x: Math.floor((COLUMNS - SHAPES[shapeIndex][0].length) / 2),
-        y: 0,
-    };
 }
 
 function renderPiece(piece) {
