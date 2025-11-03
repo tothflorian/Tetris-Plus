@@ -70,7 +70,7 @@ const context = canvas.getContext("2d");
 const score = document.querySelector("#score");
 const previousScoreText = document.querySelector("#previous-score");
 
-//#endregion
+//#endregion 1020 / x + 280;
 
 function newGame() {
     selectActiveTab(gameDisplay);
