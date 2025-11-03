@@ -1,3 +1,5 @@
+//region Game Constants
+
 const SHAPES = [
     [
         [0,1,0,0],
@@ -51,9 +53,13 @@ const COLORS = 8;
 const spriteSheet = new Image();
 spriteSheet.src = "./res/blocks-sprite-sheet.png";
 
+//endregion
+
+//region Game Variables
+
 let grid = generateGrid();
-let currentPiece = null;
-let nextPiece = null;
+let currentPiece;
+let nextPiece;
 let scoreCount = 0;
 let gameDifficulty = Difficulty.MEDIUM;
 
@@ -64,61 +70,21 @@ let lastTime = 0;
 let dropCounter = 0;
 let isGameRunning = false;
 
+//endregion
+
 //#region DOM Elements
 
 const canvas = document.querySelector("#map");
 const context = canvas.getContext("2d");
+const nextCanvas = document.querySelector("#next-piece");
+const nextContext = nextCanvas.getContext("2d");
 
 const score = document.querySelector("#score");
 const previousScoreText = document.querySelector("#previous-score");
 
-//#endregion 1020 / x + 280;
+//#endregion
 
-function newGame() {
-    selectActiveTab(gameDisplay);
-    grid = generateGrid();
-    currentPiece = new Piece();
-    nextPiece = new Piece();
-    refreshScoreboard(0, false);
-
-    pieceSum = 0;
-    dropInterval = gameDifficulty[0];
-    dropIncrease = gameDifficulty[1];
-    dropCounter = 0;
-    lastTime = 0;
-    isGameRunning = true;
-
-    requestAnimationFrame(gameLoop);
-}
-
-requestAnimationFrame(gameLoop);
-
-function gameLoop(time = 0) {
-    if (!isGameRunning) return;
-
-    const deltaTime = time - lastTime;
-    lastTime = time;
-    dropCounter += deltaTime;
-
-    if (dropCounter > dropInterval) {
-        if (currentPiece) {
-            fallingPiece(currentPiece);
-        } else {
-            currentPiece = nextPiece;
-            nextPiece = new Piece();
-        }
-        pieceSum++;
-        dropCounter = 0;
-    }
-
-    renderGraphics();
-    if (currentPiece) {
-        renderGhostPiece(currentPiece);
-        renderPiece(currentPiece);
-    }
-
-    requestAnimationFrame(gameLoop);
-}
+//region Game Render Functions
 
 function refreshScoreboard(currentScore, isNotExact = true) {
     if (isNotExact)
@@ -129,25 +95,13 @@ function refreshScoreboard(currentScore, isNotExact = true) {
     score.innerHTML = "Score: " + scoreCount;
 }
 
-function generateGrid() {
-    let grid = [];
-
-    for (let i = 0; i < ROWS; i++) {
-        grid.push([]);
-        for (let j = 0; j < COLUMNS; j++) {
-            grid[i].push(0)
-        }
-    }
-    return grid;
-}
-
-function renderPiece(piece) {
+function renderPiece(piece, canvas = context) {
     let { matrix, x, y, colorIndex } = piece;
 
     for (let i = 0; i < matrix.length; i++) {
         for (let j = 0; j < matrix[i].length; j++) {
             if (matrix[i][j]) {
-                context.drawImage(
+                canvas.drawImage(
                     spriteSheet,
                     (colorIndex - 1) * BLOCK_SIZE,
                     0,
@@ -161,16 +115,6 @@ function renderPiece(piece) {
             }
         }
     }
-}
-
-function getGhostPosition(piece) {
-    let ghostY = piece.y;
-
-    while (!isColliding(piece.x, ghostY + 1, piece.matrix)) {
-        ghostY++;
-    }
-
-    return ghostY;
 }
 
 function renderGhostPiece(piece) {
@@ -218,6 +162,80 @@ function renderGraphics() {
             }
         }
     }
+}
+
+//endregion
+
+//region Game Logic Functions
+
+function newGame() {
+    selectActiveTab(gameDisplay);
+    grid = generateGrid();
+    nextPiece = new Piece();
+    currentPiece = new Piece();
+    setX(currentPiece);
+    refreshScoreboard(0, false);
+
+    pieceSum = 0;
+    dropInterval = gameDifficulty[0];
+    dropIncrease = gameDifficulty[1];
+    dropCounter = 0;
+    lastTime = 0;
+    isGameRunning = true;
+
+    requestAnimationFrame(gameLoop);
+}
+
+function gameLoop(time = 0) {
+    if (!isGameRunning) return;
+
+    const deltaTime = time - lastTime;
+    lastTime = time;
+    dropCounter += deltaTime;
+
+    if (dropCounter > dropInterval) {
+        if (currentPiece) {
+            fallingPiece(currentPiece);
+        } else {
+            currentPiece = nextPiece;
+            setX(currentPiece);
+            nextPiece = new Piece();
+            nextContext.clearRect(0, 0, nextCanvas.width, nextCanvas.height);
+        }
+        pieceSum++;
+        dropCounter = 0;
+    }
+
+    renderGraphics();
+    if (currentPiece) {
+        renderGhostPiece(currentPiece);
+        renderPiece(currentPiece);
+        renderPiece(nextPiece, nextContext);
+    }
+
+    requestAnimationFrame(gameLoop);
+}
+
+function generateGrid() {
+    let grid = [];
+
+    for (let i = 0; i < ROWS; i++) {
+        grid.push([]);
+        for (let j = 0; j < COLUMNS; j++) {
+            grid[i].push(0)
+        }
+    }
+    return grid;
+}
+
+function getGhostPosition(piece) {
+    let ghostY = piece.y;
+
+    while (!isColliding(piece.x, ghostY + 1, piece.matrix)) {
+        ghostY++;
+    }
+
+    return ghostY;
 }
 
 function checkGrid() {
@@ -268,7 +286,7 @@ function fallingPiece(piece) {
         }
 
         currentPiece = null;
-        dropInterval -= dropIncrease;
+        dropInterval -= dropIncrease; // Possible function for increasing difficulty: 1020 / x + 280;
     }
 }
 
@@ -327,6 +345,10 @@ function isColliding(x, y, rotatedPiece){
     return false;
 }
 
+//endregion
+
+//region Events
+
 document.addEventListener("keydown", (event) => {
     if (activeTab === gameDisplay) {
         switch (event.key) {
@@ -364,6 +386,8 @@ document.addEventListener("gameOver", (event) => {
     isGameRunning = false;
     selectActiveTab(mainMenuDisplay);
 });
+
+//endregion
 
 // aszinkron függvény használata
 // README szerű felsorolása, hogy milyen mechanikákat használunk
