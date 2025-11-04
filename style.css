@@ -86,10 +86,14 @@ button {
     cursor: pointer;
 }
 
-.diff-btn {
+.diff-elem, .leaderboard-elem {
+    margin: 5%;
+}
+
+.diff-elem {
     background-image: url("./res/button-lightblue.png");
 }
-.diff-btn:hover {
+.diff-elem:hover {
     background-image: url("./res/button-darkblue.png");
 }
 

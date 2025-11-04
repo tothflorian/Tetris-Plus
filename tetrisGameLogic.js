@@ -60,6 +60,7 @@ blocksSpriteSheet.src = "./res/blocks-sprite-sheet.png";
 let grid = generateGrid();
 let currentPiece;
 let nextPiece;
+let isCurrentPieceGolden;
 let scoreCount = 0;
 let gameDifficulty = Difficulty.MEDIUM;
 
@@ -84,11 +85,11 @@ const previousScoreText = document.querySelector("#previous-score");
 
 //#endregion
 
-//region Game Render Functions
+//region Game Render Methods
 
 function refreshScoreboard(currentScore, isNotExact = true) {
     if (isNotExact)
-        if (!currentPiece.isGolden)
+        if (!isCurrentPieceGolden)
             scoreCount += currentScore;
         else
             scoreCount += currentScore * 5;
@@ -167,15 +168,40 @@ function renderGraphics() {
     }
 }
 
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function animationLineClear(lines) {
+    for (let t = 0; t < 3; t++) {
+        for (const i of lines) {
+            for (let j = 0; j < COLUMNS; j++) {
+                grid[i][j] = 0;
+            }
+        }
+        renderGraphics();
+        await delay(100);
+
+        for (const i of lines) {
+            for (let j = 0; j < COLUMNS; j++) {
+                grid[i][j] = 8;
+            }
+        }
+        renderGraphics();
+        await delay(100);
+    }
+}
+
 //endregion
 
-//region Game Logic Functions
+//region Game Logic Methods
 
 function newGame() {
     selectActiveTab(gameDisplay);
     grid = generateGrid();
     nextPiece = new Piece();
     currentPiece = new Piece();
+    isCurrentPieceGolden = currentPiece.colorIndex === 9;
     setX(currentPiece);
     nextCanvas.width = nextPiece.matrix.length * BLOCK_SIZE;
     nextCanvas.height = nextPiece.matrix.length * BLOCK_SIZE;
@@ -200,9 +226,11 @@ function gameLoop(time = 0) {
 
     if (dropCounter > dropInterval) {
         if (currentPiece) {
-            fallingPiece(currentPiece);
-        } else {
+            fallingPiece(currentPiece).then(() => {});
+        }
+        else {
             currentPiece = nextPiece;
+            isCurrentPieceGolden = currentPiece.colorIndex === 9;
             setX(currentPiece);
             nextPiece = new Piece();
 
@@ -247,35 +275,33 @@ function getGhostPosition(piece) {
     return ghostY;
 }
 
-function checkGrid() {
-    let count = 0;
-    for (let i = 0; i < grid.length; i++){
-        let allFilled = true;
-        for (let j = 0; j < grid[0].length; j++){
-            if (grid[i][j] === 0)
-                allFilled = false;
-        }
-        if (allFilled) {
-            count++;
-            grid.splice(i,1);
-            grid.unshift([0,0,0,0,0,0,0,0,0,0]);
+async function checkGrid() {
+    const fullLines = [];
+
+    for (let i = 0; i < grid.length; i++) {
+        if (grid[i].every(cell => cell !== 0)) {
+            fullLines.push(i);
         }
     }
 
-    if (count === 1)
-        refreshScoreboard(100);
-    else if (count === 2)
-        refreshScoreboard(300);
-    else if (count === 3)
-        refreshScoreboard(500);
-    else if (count === 4)
-        refreshScoreboard(800);
+    if (fullLines.length === 0)
+        return;
+
+    await animationLineClear(fullLines);
+
+    for (const i of fullLines) {
+        grid.splice(i, 1);
+        grid.unshift(new Array(COLUMNS).fill(0));
+    }
+
+    const scoreMap = [0, 100, 300, 500, 800];
+    refreshScoreboard(scoreMap[fullLines.length] || 0);
 }
 
-function fallingPiece(piece) {
+async function fallingPiece(piece) {
     if ( !isColliding(piece.x, piece.y + 1) )
         piece.y += 1;
-    else{
+    else {
         let matrix = piece.matrix;
         for (let i = 0; i < matrix.length; i++) {
             for (let j = 0; j < matrix[i].length; j++) {
@@ -287,15 +313,24 @@ function fallingPiece(piece) {
             }
         }
 
-        checkGrid();
+        await checkGrid();
 
-        if (currentPiece.y === 0) {
+        if (currentPiece.y <= 0 && isColliding(piece.x, piece.y, piece.matrix)) {
             const gameOverEvent = new CustomEvent("gameOver", { detail: { score: scoreCount } });
             document.dispatchEvent(gameOverEvent);
+            return;
         }
 
         currentPiece = null;
         dropInterval -= dropIncrease; // Possible function for increasing difficulty: Difficulty[0] / x + Difficulty[0] / 4;
+    }
+}
+
+function hardDrop(piece) {
+    while (!isColliding(piece.x, piece.y + 1, piece.matrix)) {
+        fallingPiece(piece).then(() => {
+            renderPiece(piece);
+        });
     }
 }
 
@@ -356,7 +391,7 @@ function isColliding(x, y, rotatedPiece){
 
 //endregion
 
-//region Events
+//region Game Events
 
 document.addEventListener("keydown", (event) => {
     if (activeTab === gameDisplay) {
@@ -371,7 +406,7 @@ document.addEventListener("keydown", (event) => {
                 break;
             case "s":
             case "ArrowDown":
-                fallingPiece(currentPiece);
+                hardDrop(currentPiece);
                 break;
             case "w":
             case "ArrowUp":
@@ -385,8 +420,7 @@ document.addEventListener("keydown", (event) => {
     }
 });
 
-document.addEventListener("gameOver", (event) => {
-    setTimeout(() => {}, 1500);
+document.addEventListener("gameOver", () => {
     previousScoreText.innerHTML = "Previous score: " + scoreCount;
 
     refreshScoreboard(0, false);
@@ -397,6 +431,3 @@ document.addEventListener("gameOver", (event) => {
 });
 
 //endregion
-
-// aszinkron függvény használata
-// README szerű felsorolása, hogy milyen mechanikákat használunk

@@ -29,10 +29,10 @@
     </div>
     <div id="difficulty-menu" class="tab">
         <h1>DIFFICULTY</h1>
-        <button id="easy-button" class="diff-btn">Easy</button>
-        <button id="medium-button" class="diff-btn">Medium</button>
-        <button id="hard-button" class="diff-btn">Hard</button>
-        <button id="difficulty-back-button" class="diff-btn">Back</button>
+        <button id="easy-button" class="diff-elem">Easy</button>
+        <button id="medium-button" class="diff-elem">Medium</button>
+        <button id="hard-button" class="diff-elem">Hard</button>
+        <button id="difficulty-back-button" class="diff-elem">Back</button>
     </div>
     <div id="game" class="tab">
         <p id="score" style="margin-bottom: 5%">Score: 0</p>
@@ -40,12 +40,13 @@
         <div id="next-container">
             <div id="next-label">Next piece</div>
             <canvas id="next-piece"></canvas>
+            <div>Esc to pause game...</div>
         </div>
     </div>
     <div id="leaderboards-menu" class="tab">
         <h1>LEADERBOARDS</h1>
-        <p>Sorry, this page is still under construction.</p>
-        <button id="leaderboards-back-button">Back</button>
+        <p class="leaderboards-elem">Sorry, this page is still under construction.</p>
+        <button id="leaderboards-back-button" class="leaderboards-elem">Back</button>
     </div>
 </body>
 <script src="tetrisMenu.js"></script>

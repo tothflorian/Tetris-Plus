@@ -10,15 +10,11 @@ class Piece {
         this.y = 0;
 
         let random = Math.random();
-        if (random < 0.04) {
-            this.isGolden = true;
+        if (random < 0.04)
             this.colorIndex = 9;
-        }
         /*
-        else if (random > 0.96) {
-            this.isFreezer = true;
+        else if (random > 0.96)
             this.colorIndex = 10;
-        }
         */
     }
 }

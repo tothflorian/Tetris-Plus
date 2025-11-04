@@ -1,11 +1,26 @@
+//region DOM Elements
+
 const volumeSlider = document.querySelector("#volume-range");
 const musicPauseButton = document.querySelector("#music-pause-button");
+
+//endregion
+
+//region Audio Source
+
 const theme = new Audio("./res/theme.mp3");
 const clickSound = new Audio("./res/button-click.mp3");
+
+//endregion
+
+//region Audio Settings
 
 theme.autoplay = true;
 theme.loop = true;
 theme.volume = volumeSlider.value;
+
+//endregion
+
+//region Audio Events
 
 window.addEventListener('DOMContentLoaded', () => {
     theme.play().catch(() => theme.pause());
@@ -14,10 +29,6 @@ window.addEventListener('DOMContentLoaded', () => {
 volumeSlider.addEventListener("input", () => {
     theme.volume = volumeSlider.value;
 });
-
-document.body.addEventListener("click", () => {
-    clickSound.play().catch(() => clickSound.pause());
-})
 
 musicPauseButton.addEventListener("click", () => {
     if (theme.paused) {
@@ -29,3 +40,5 @@ musicPauseButton.addEventListener("click", () => {
         musicPauseButton.textContent = "▶️";
     }
 });
+
+//endregion

@@ -11,6 +11,8 @@ const difficultyUIText = document.querySelector("#ui-difficulty");
 
 //#endregion
 
+//region Menu Methods
+
 let activeTab = mainMenuDisplay;
 function selectActiveTab(active) {
     displays.forEach(element => {
@@ -34,6 +36,10 @@ function resumeGame() {
     isGameRunning = true;
     requestAnimationFrame(gameLoop);
 }
+
+//endregion
+
+//region Menu Events
 
 document.body.addEventListener("click", (event) => {
     if (event.target.matches("#new-game-button")) {
@@ -74,3 +80,5 @@ document.body.addEventListener("click", (event) => {
             break;
     }*/
 });
+
+//endregion
