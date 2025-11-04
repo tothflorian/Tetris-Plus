@@ -48,10 +48,10 @@ const ROWS = 20;
 const COLUMNS = 10;
 
 const BLOCK_SIZE = 32;
-const COLORS = 8;
+const COLORS = 9;
 
-const spriteSheet = new Image();
-spriteSheet.src = "./res/blocks-sprite-sheet.png";
+const blocksSpriteSheet = new Image();
+blocksSpriteSheet.src = "./res/blocks-sprite-sheet.png";
 
 //endregion
 
@@ -88,7 +88,10 @@ const previousScoreText = document.querySelector("#previous-score");
 
 function refreshScoreboard(currentScore, isNotExact = true) {
     if (isNotExact)
-        scoreCount += currentScore;
+        if (!currentPiece.isGolden)
+            scoreCount += currentScore;
+        else
+            scoreCount += currentScore * 5;
     else
         scoreCount = currentScore;
 
@@ -102,7 +105,7 @@ function renderPiece(piece, canvas = context) {
         for (let j = 0; j < matrix[i].length; j++) {
             if (matrix[i][j]) {
                 canvas.drawImage(
-                    spriteSheet,
+                    blocksSpriteSheet,
                     (colorIndex - 1) * BLOCK_SIZE,
                     0,
                     BLOCK_SIZE,
@@ -126,7 +129,7 @@ function renderGhostPiece(piece) {
         for (let j = 0; j < matrix[i].length; j++) {
             if (matrix[i][j]) {
                 context.drawImage(
-                    spriteSheet,
+                    blocksSpriteSheet,
                     (colorIndex - 1) * BLOCK_SIZE,
                     0,
                     BLOCK_SIZE,
@@ -149,7 +152,7 @@ function renderGraphics() {
         for (let j = 0; j < grid[i].length; j++) {
             if (grid[i][j]) {
                 context.drawImage(
-                    spriteSheet,
+                    blocksSpriteSheet,
                     (grid[i][j] - 1) * BLOCK_SIZE,
                     0,
                     BLOCK_SIZE,
@@ -292,7 +295,7 @@ function fallingPiece(piece) {
         }
 
         currentPiece = null;
-        dropInterval -= dropIncrease; // Possible function for increasing difficulty: 1020 / x + 280;
+        dropInterval -= dropIncrease; // Possible function for increasing difficulty: Difficulty[0] / x + Difficulty[0] / 4;
     }
 }
 
