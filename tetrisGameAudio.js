@@ -22,6 +22,10 @@ theme.volume = volumeSlider.value;
 
 //region Audio Events
 
+document.body.addEventListener("click", () => {
+    clickSound.play().catch(() => { clickSound.pause(); });
+})
+
 window.addEventListener('DOMContentLoaded', () => {
     theme.play().catch(() => theme.pause());
 });

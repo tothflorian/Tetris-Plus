@@ -70,6 +70,7 @@ let dropIncrease;
 let lastTime = 0;
 let dropCounter = 0;
 let isGameRunning = false;
+let isAnimating = false;
 
 //endregion
 
@@ -173,6 +174,8 @@ function delay(ms) {
 }
 
 async function animationLineClear(lines) {
+    isAnimating = true;
+
     for (let t = 0; t < 3; t++) {
         for (const i of lines) {
             for (let j = 0; j < COLUMNS; j++) {
@@ -190,6 +193,8 @@ async function animationLineClear(lines) {
         renderGraphics();
         await delay(100);
     }
+
+    isAnimating = false;
 }
 
 //endregion
@@ -277,9 +282,13 @@ function getGhostPosition(piece) {
 
 async function checkGrid() {
     const fullLines = [];
-
     for (let i = 0; i < grid.length; i++) {
-        if (grid[i].every(cell => cell !== 0)) {
+        let allFilled = true;
+        for (let j = 0; j < grid[0].length; j++) {
+            if (grid[i][j] === 0)
+                allFilled = false;
+        }
+        if (allFilled) {
             fullLines.push(i);
         }
     }
@@ -299,6 +308,9 @@ async function checkGrid() {
 }
 
 async function fallingPiece(piece) {
+    if (isAnimating)
+        return;
+
     if ( !isColliding(piece.x, piece.y + 1) )
         piece.y += 1;
     else {
@@ -306,16 +318,16 @@ async function fallingPiece(piece) {
         for (let i = 0; i < matrix.length; i++) {
             for (let j = 0; j < matrix[i].length; j++) {
                 if (matrix[i][j] === 1) {
-                    let p = currentPiece.x + j;
-                    let q = currentPiece.y + i;
-                    grid[q][p] = currentPiece.colorIndex;
+                    let p = piece.x + j;
+                    let q = piece.y + i;
+                    grid[q][p] = piece.colorIndex;
                 }
             }
         }
 
         await checkGrid();
 
-        if (currentPiece.y <= 0 && isColliding(piece.x, piece.y, piece.matrix)) {
+        if (piece.y === 0 && isColliding(piece.x, piece.y, piece.matrix)) {
             const gameOverEvent = new CustomEvent("gameOver", { detail: { score: scoreCount } });
             document.dispatchEvent(gameOverEvent);
             return;
@@ -327,6 +339,8 @@ async function fallingPiece(piece) {
 }
 
 function hardDrop(piece) {
+    if (isAnimating)
+        return;
     while (!isColliding(piece.x, piece.y + 1, piece.matrix)) {
         fallingPiece(piece).then(() => {
             renderPiece(piece);
@@ -335,16 +349,23 @@ function hardDrop(piece) {
 }
 
 function movePieceLeft(piece) {
-    if(!isColliding(piece.x - 1, piece.y))
+    if (isAnimating)
+        return;
+    if( !isColliding(piece.x - 1, piece.y) )
         piece.x -= 1;
 }
 
 function movePieceRight(piece) {
+    if (isAnimating)
+        return;
     if ( !isColliding(piece.x + 1, piece.y) )
         piece.x += 1;
 }
 
 function rotatePiece(piece) {
+    if (isAnimating)
+        return;
+
     let rotatedPiece = [];
     let matrix = piece.matrix;
 
