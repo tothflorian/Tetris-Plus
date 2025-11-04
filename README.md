@@ -1,8 +1,27 @@
 # Tetris-Plus
 SEE THE ENGLISH VERSION BELOW
 
-JavaScript technikák:
+Hogyan kell játszani:
+-
+A játék célja, hogy a leeső darabokat úgy helyezd el, hogy teljes vízszintes sorokat töltsenek ki.
+A megtelt sorok eltűnnek, és pont jár értük. Minél több sor tűnik el egyszerre, annál több pont jár.
+A játék akkor ér véget, ha az darabok elérik a pálya tetejét.
 
+Irányítás:
+  - A / D | Balra / Jobbra nyíl – az elem mozgatása adott irányba
+  - W | Fel nyíl – az elem forgatása
+  - S | Le nyíl – azonnali leejtés
+  - Esc - Játék szüneteltetése
+
+Pontozás:
+  - 1 sor: 100 pts
+  - 2 sor: 300 pts
+  - 3 sor: 500 pts
+  - Tetris (4 sor): 800 pts
+Minden pontszerzés 5x szorzóval számolódik, hogyha a sor(okat) törlő darab arany.
+
+JavaScript technikák:
+-
 - I. JavaScript nyelvi elemei | A projektben alapvető nyelvi elemeket használok, mint például:
   - let, const változó deklarálások,
   - szinkron és aszinkron metódusok/függvények,
@@ -44,3 +63,60 @@ JavaScript technikák:
 
 This is my first JavaScript project.
 
+How to Play:
+-
+The goal of the game is to place the falling pieces so that they fill complete horizontal rows.
+Filled rows disappear, you earn points for them. The more rows you clear at once, the more points you get.
+The game is over when the pieces reach the top of the field.
+
+Controls:
+  - A / D | Left / Right arrow – move the piece in the given direction
+  - W | Up arrow – rotates the piece
+  - S | Down arrow – instant drop
+  - Esc - Pause the game
+
+Scoring:
+  - 1 line: 100 pts
+  - 2 lines: 300 pts
+  - 3 lines: 500 pts
+  - Tetris (4 lines): 800 pts
+Each score is multiplied by 5x if the piece that clears the line(s) is golden.
+
+JavaScript techniques:
+-
+- I. Elements of the JavaScript language | The project uses basic language elements such as:
+  - let, const variable declarations,
+  - synchronous and asynchronous methods/functions,
+  - for, while loops,
+  - if, switch conditions,
+  - as well as arrays and objects (for handling Tetris shapes and positions).
+
+- II. DOM programming | Certain HTML elements are handled via JavaScript:
+  - The game field and menus are accessed using document.querySelector() and querySelectorAll() function calls.
+  - Score, level, and messages are dynamically updated in the DOM (innerText, innerHTML).
+
+- III. Event handling details | The game is controlled by keyboard:
+  - The keydown event listens for arrows and spacebar, allowing the player to rotate, move, or speed up pieces.
+  - The onclick event is assigned to several interactive elements (e.g., buttons) for actions such as starting or restarting the game.
+  - The gameOver event (CustomEvent) is triggered in the program (dispatchEvent) when the condition for ending the game is met.
+
+- IV. Code organization, data storage | The code is divided into modules:
+  - tetrisGameLogic.js contains the main game logic and field/piece updates.
+  - tetrisGamePiece.js defines piece shapes and movement using an object-oriented approach.
+  - tetrisMenu.js manages the menu system and related events.
+  - tetrisGameAudio.js handles the sounds.
+  - Data is stored in arrays and objects (e.g., a matrix for the game field, a unique (Piece) object for the active Tetris piece).
+
+- V. Forms, images, tables | The game’s menu and UI contain simple HTML elements such as:
+  - buttons, labels,
+  - a game logo in the menus,
+  - image backgrounds for certain elements.
+
+- VI. JavaScript built-in objects
+  - Math: for random Tetris piece generation (Math.random() and Math.floor()),
+  - Audio: for loading and playing sound effects.
+
+- VII. Canvas, animations, APIs | The game uses the Canvas API to render the playing field:
+  - Rendering is 2D using canvas.getContext("2d").
+  - The game’s main logical engine runs in the gameLoop() cycle, which asynchronously generates frames via requestAnimationFrame() callbacks.
+  - Each frame clears and redraws the field to ensure smooth motion. For a game of this scale, the load is practically trivial.
