@@ -394,7 +394,7 @@ function isColliding(x, y, rotatedPiece){
 //region Game Events
 
 document.addEventListener("keydown", (event) => {
-    if (activeTab === gameDisplay) {
+    if (activeTab === gameDisplay && currentPiece !== null) {
         switch (event.key) {
             case "a":
             case "ArrowLeft":
