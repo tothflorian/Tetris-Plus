@@ -231,7 +231,9 @@ function gameLoop(time = 0) {
 
     if (dropCounter > dropInterval) {
         if (currentPiece) {
-            fallingPiece(currentPiece).then(() => {});
+            fallingPiece(currentPiece).then(() => {
+
+            });
         }
         else {
             currentPiece = nextPiece;
@@ -342,9 +344,7 @@ function hardDrop(piece) {
     if (isAnimating)
         return;
     while (!isColliding(piece.x, piece.y + 1, piece.matrix)) {
-        fallingPiece(piece).then(() => {
-            renderPiece(piece);
-        });
+        fallingPiece(piece).then(() => {});
     }
 }
 
