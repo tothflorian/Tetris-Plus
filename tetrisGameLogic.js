@@ -176,7 +176,6 @@ function newGame() {
     setX(currentPiece);
     nextCanvas.width = nextPiece.matrix.length * BLOCK_SIZE;
     nextCanvas.height = nextPiece.matrix.length * BLOCK_SIZE;
-    nextCanvas.classList.add("gradient-border");
     refreshScoreboard(0, false);
 
     pieceSum = 0;
@@ -207,7 +206,6 @@ function gameLoop(time = 0) {
             let len = nextPiece.matrix.length;
             nextCanvas.width = len * BLOCK_SIZE;
             nextCanvas.height = len * BLOCK_SIZE;
-            nextCanvas.classList.add("gradient-border");
             nextContext.clearRect(0, 0, nextCanvas.width, nextCanvas.height);
         }
         pieceSum++;

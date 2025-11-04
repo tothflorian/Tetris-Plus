@@ -8,6 +8,10 @@ class Piece {
         this.colorIndex = colorIndex;
         this.x = 0;
         this.y = 0;
+
+        let random = Math.random();
+        this.isGolden = random < 0.05;
+        this.isFreezer = random > 0.95;
     }
 }
 
