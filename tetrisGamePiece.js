@@ -10,7 +10,7 @@ class Piece {
         this.y = 0;
 
         let random = Math.random();
-        if (random < 0.04)
+        if (random < 0.025)
             this.colorIndex = 9;
         /*
         else if (random > 0.96)
