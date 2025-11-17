@@ -5,7 +5,8 @@ const mainMenuDisplay = document.querySelector("#main-menu");
 const pauseMenuDisplay = document.querySelector("#pause-menu");
 const difficultyMenuDisplay = document.querySelector("#difficulty-menu");
 const leaderboardsMenuDisplay = document.querySelector("#leaderboards-menu");
-const displays = [gameDisplay, mainMenuDisplay, pauseMenuDisplay, difficultyMenuDisplay, leaderboardsMenuDisplay];
+const loginMenuDisplay = document.querySelector("#login-menu");
+const displays = [gameDisplay, mainMenuDisplay, pauseMenuDisplay, difficultyMenuDisplay, leaderboardsMenuDisplay, loginMenuDisplay];
 
 const difficultyUIText = document.querySelector("#ui-difficulty");
 
@@ -48,10 +49,6 @@ document.body.addEventListener("click", (event) => {
     else if (event.target.matches("#pause-resume-button")) {
         resumeGame();
     }
-    else if (event.target.matches("#pause-quit-button")) {
-        selectActiveTab(mainMenuDisplay);
-        previousScoreText.innerHTML = "Previous score: " + scoreCount;
-    }
     else if (event.target.matches("#difficulty-button")) {
         selectActiveTab(difficultyMenuDisplay);
     }
@@ -70,10 +67,14 @@ document.body.addEventListener("click", (event) => {
         gameDifficulty = Difficulty.HARD;
         difficultyUIText.innerHTML = "Difficulty: " + gameDifficulty[2];
     }
-    else if (event.target.matches("#difficulty-back-button"))
+    else if (event.target.matches(".back-button"))
         selectActiveTab(mainMenuDisplay);
-    else if (event.target.matches("#leaderboards-back-button"))
+    else if (event.target.matches("#pause-back-button")) {
         selectActiveTab(mainMenuDisplay);
+        previousScoreText.innerHTML = "Previous score: " + scoreCount;
+    }
+    else if (event.target.matches("#login-button"))
+        selectActiveTab(loginMenuDisplay);
 
     /*switch (event.target) {
         case "#new-game-button":

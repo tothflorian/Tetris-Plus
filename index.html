@@ -7,15 +7,21 @@
     <link rel="icon" type="image/x-icon" href="./res/favicon.ico">
 </head>
 <body>
+
     <div class ="ui">
-        <h4>Username: Guest</h4>
         <h4 id="ui-difficulty">Difficulty: MEDIUM</h4>
+
         <div class="volume-control">
             <label for="volume-range">Volume:</label>
             <input type="range" id="volume-range" min="0" max="1" step="0.01" value="0.5">
             <button id="music-pause-button">▶️</button>
         </div>
+
+        <h4>Username: Guest</h4>
+        <button id="login-button">Login</button>
+
     </div>
+
     <div id="main-menu" class="tab">
         <img src="./res/tetris-plus-logo.png" alt="main logo" style="width: 35%">
         <h4 id="previous-score" style="margin: 2% 0 1% 0">Previous score: NONE</h4>
@@ -23,18 +29,21 @@
         <button id="difficulty-button">Difficulty</button>
         <button id="leaderboards-button">Leaderboards</button>
     </div>
+
     <div id="pause-menu" class="tab">
         <img src="./res/tetris-plus-logo.png" alt="main logo" style="width: 35%; margin-bottom: 2%">
         <button id="pause-resume-button">Resume</button>
-        <button id="pause-quit-button">Quit</button>
+        <button id="pause-back-button" class="back-button">Quit</button>
     </div>
+
     <div id="difficulty-menu" class="tab">
         <h1>DIFFICULTY</h1>
         <button id="easy-button" class="diff-elem">Easy</button>
         <button id="medium-button" class="diff-elem">Medium</button>
         <button id="hard-button" class="diff-elem">Hard</button>
-        <button id="difficulty-back-button" class="diff-elem">Back</button>
+        <button class="back-button diff-elem">Back</button>
     </div>
+
     <div id="game" class="tab">
         <p id="score" style="margin-bottom: 5%">Score: 0</p>
         <canvas id="map" height="640" width="320"></canvas>
@@ -44,11 +53,26 @@
             <div>Esc to pause game...</div>
         </div>
     </div>
+
     <div id="leaderboards-menu" class="tab">
         <h1>LEADERBOARDS</h1>
-        <p class="leaderboards-elem">Sorry, this page is still under construction.</p>
-        <button id="leaderboards-back-button" class="leaderboards-elem">Back</button>
+
+
+
+        <button class="back-button leaderboards-elem">Back</button>
     </div>
+
+    <div id="login-menu" class="tab">
+        <h1>LOGIN</h1>
+
+        <div>
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" style="color: black">
+        </div>
+
+        <button class="back-button">Back</button>
+    </div>
+
 </body>
 <script src="tetrisMenu.js"></script>
 <script src="tetrisGamePiece.js"></script>

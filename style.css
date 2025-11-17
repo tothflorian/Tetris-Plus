@@ -27,6 +27,9 @@ body {
 #leaderboards-menu {
     display: none;
 }
+#login-menu {
+    display: none;
+}
 
 .ui {
     position: fixed;
@@ -108,7 +111,7 @@ button {
 #difficulty-button {
     background-image: url("./res/button-lightblue.png");
 }
-#leaderboards-button, #leaderboards-back-button, #pause-quit-button {
+#leaderboards-button, .back-button {
     background-image: url("./res/button-pink.png");
 }
 
@@ -124,7 +127,7 @@ button {
 #difficulty-button:hover {
     background-image: url("./res/button-darkblue.png");
 }
-#leaderboards-button:hover, #leaderboards-back-button:hover, #pause-quit-button:hover {
+#leaderboards-button:hover, .back-button:hover {
     background-image: url("./res/button-purple.png");
 }
 
