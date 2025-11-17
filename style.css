@@ -121,7 +121,7 @@ body {
 }
 .tab.menu form div {
     display: grid;
-    grid-template-columns: 150px 200px;
+    grid-template-columns: 100px 200px;
     align-items: center;
     gap: 0.5rem;
 }
@@ -136,7 +136,7 @@ body {
     background-image: url("./res/button-orange.png");
 
 }
-#new-game-button:hover {
+#new-game-button:hover, #login-button:hover, #register-button:hover {
     background-image: url("./res/button-green.png");
 }
 #difficulty-button:hover {
