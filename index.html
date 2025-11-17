@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Tetris</title>
     <link rel="stylesheet" href="./style.css">
     <link rel="icon" type="image/x-icon" href="./res/favicon.ico">
 </head>
+
 <body>
 
-    <div class ="ui">
+    <div id="ui" class ="ui">
         <h4 id="ui-difficulty">Difficulty: MEDIUM</h4>
 
         <div class="volume-control">
@@ -18,11 +20,11 @@
         </div>
 
         <h4>Username: Guest</h4>
-        <button id="login-button">Login</button>
+        <button id="ui-login-button">Login</button>
 
     </div>
 
-    <div id="main-menu" class="tab">
+    <div id="main-menu" class="tab menu">
         <img src="./res/tetris-plus-logo.png" alt="main logo" style="width: 35%">
         <h4 id="previous-score" style="margin: 2% 0 1% 0">Previous score: NONE</h4>
         <button id="new-game-button">New Game</button>
@@ -30,13 +32,13 @@
         <button id="leaderboards-button">Leaderboards</button>
     </div>
 
-    <div id="pause-menu" class="tab">
+    <div id="pause-menu" class="tab menu">
         <img src="./res/tetris-plus-logo.png" alt="main logo" style="width: 35%; margin-bottom: 2%">
         <button id="pause-resume-button">Resume</button>
         <button id="pause-back-button" class="back-button">Quit</button>
     </div>
 
-    <div id="difficulty-menu" class="tab">
+    <div id="difficulty-menu" class="tab menu">
         <h1>DIFFICULTY</h1>
         <button id="easy-button" class="diff-elem">Easy</button>
         <button id="medium-button" class="diff-elem">Medium</button>
@@ -54,28 +56,72 @@
         </div>
     </div>
 
-    <div id="leaderboards-menu" class="tab">
+    <div id="leaderboards-menu" class="tab menu">
         <h1>LEADERBOARDS</h1>
 
-
+        <p>hello :)</p>
 
         <button class="back-button leaderboards-elem">Back</button>
     </div>
 
-    <div id="login-menu" class="tab">
+    <div id="login-menu" class="tab menu">
         <h1>LOGIN</h1>
 
-        <div>
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" style="color: black">
-        </div>
+        <form>
 
+            <div>
+                <label for="login-username">Username</label>
+                <input type="text" id="login-username" name="username" placeholder="Enter your name">
+            </div>
+
+            <div>
+                <label for="login-password">Password</label>
+                <input type="password" id="login-password" name="password" placeholder="Enter your password">
+            </div>
+
+            <p id="login-to-register">Don't have an account yet? Click here to register!</p>
+
+        </form>
+
+        <button id="login-button">Login</button>
         <button class="back-button">Back</button>
+
+    </div>
+
+    <div id="register-menu" class="tab menu">
+        <h1>REGISTER</h1>
+
+        <form>
+
+            <div>
+                <label for="register-username">Username</label>
+                <input type="text" id="register-username" name="username" placeholder="Ig. FentanylAbuser96">
+            </div>
+
+            <div>
+                <label for="register-password">Password</label>
+                <input type="password" id="register-password" name="password" placeholder="Ig. StronGPassWoRd213">
+            </div>
+
+            <div>
+                <label for="register-repeat-password">Repeat password</label>
+                <input type="password" id="register-repeat-password" name="repeat-password" placeholder="Ig. Same as the previous box...">
+            </div>
+
+            <p id="register-to-login">I already have an account</p>
+
+        </form>
+
+        <button id="register-button">Register</button>
+        <button class="back-button">Back</button>
+
     </div>
 
 </body>
+
 <script src="tetrisMenu.js"></script>
 <script src="tetrisGamePiece.js"></script>
 <script src="tetrisGameLogic.js"></script>
 <script src="tetrisGameAudio.js"></script>
+
 </html>

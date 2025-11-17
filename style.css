@@ -15,21 +15,6 @@ body {
     height: 100vh;
     font-size: 150%;
 }
-#game {
-    display: none;
-}
-#pause-menu {
-    display: none;
-}
-#difficulty-menu {
-    display: none;
-}
-#leaderboards-menu {
-    display: none;
-}
-#login-menu {
-    display: none;
-}
 
 .ui {
     position: fixed;
@@ -38,8 +23,8 @@ body {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding: 1%;
-    margin: 1%;
+    padding: 0.5%;
+    margin: 0.5%;
     border: none;
 }
 
@@ -52,11 +37,11 @@ body {
     padding: 0;
 }
 
-.gradient-border, button {
+.menu button {
     position: relative;
     z-index: 0;
 }
-.gradient-border::before, button::before {
+.menu button::before {
     content: "";
     position: absolute;
     inset: 0;
@@ -76,19 +61,6 @@ body {
     to { background-position: 200% center; }
 }
 
-button {
-    font-family: monospace;
-    font-size: clamp(1rem, 2vw, 1.4rem);
-    width: clamp(150px, 25vw, 300px);
-    color: white;
-    background-position: center;
-    border: none;
-    border-radius: 12px;
-    padding: 0.8em 1.2em;
-    margin: 1.5%;
-    cursor: pointer;
-}
-
 .diff-elem, .leaderboard-elem {
     margin: 5%;
 }
@@ -102,10 +74,23 @@ button {
 
 /*BUTTONS*/
 
+.menu button {
+    font-family: monospace;
+    font-size: clamp(1rem, 2vw, 1.4rem);
+    width: clamp(150px, 25vw, 300px);
+    color: white;
+    background-position: center;
+    border: none;
+    border-radius: 12px;
+    padding: 0.8em 1.2em;
+    margin: 1.5%;
+    cursor: pointer;
+}
+
 #pause-resume-button {
     background-image: url("./res/button-yellow.png");
 }
-#new-game-button {
+#new-game-button, #login-button, #register-button {
     background-image: url("./res/button-teal.png");
 }
 #difficulty-button {
@@ -113,6 +98,36 @@ button {
 }
 #leaderboards-button, .back-button {
     background-image: url("./res/button-pink.png");
+}
+
+/*MENU*/
+
+#game,
+#pause-menu,
+#difficulty-menu,
+#leaderboards-menu,
+#login-menu,
+#register-menu {
+    display: none;
+}
+
+/*LOGIN-REGISTER*/
+
+.tab.menu form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+.tab.menu form div {
+    display: grid;
+    grid-template-columns: 150px 200px;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+#login-menu input, #register-menu input {
+    color: black;
 }
 
 /*TRANSITIONS*/
@@ -168,11 +183,12 @@ button {
     background-size: cover;
 }
 
+/*UI SOUND*/
+
 #volume-range {
     accent-color: orange;
 }
 #music-pause-button {
-    all: unset;
     display: inline-block;
     background-color: transparent;
     color: white;

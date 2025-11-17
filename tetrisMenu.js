@@ -1,12 +1,16 @@
 //#region DOM Elements
 
+const uiLoginButton = document.querySelector("#ui-login-button");
+
 const gameDisplay = document.querySelector("#game");
 const mainMenuDisplay = document.querySelector("#main-menu");
 const pauseMenuDisplay = document.querySelector("#pause-menu");
 const difficultyMenuDisplay = document.querySelector("#difficulty-menu");
 const leaderboardsMenuDisplay = document.querySelector("#leaderboards-menu");
 const loginMenuDisplay = document.querySelector("#login-menu");
-const displays = [gameDisplay, mainMenuDisplay, pauseMenuDisplay, difficultyMenuDisplay, leaderboardsMenuDisplay, loginMenuDisplay];
+const registerMenuDisplay = document.querySelector("#register-menu");
+const uiDisplay = document.querySelector("#ui");
+const displays = [gameDisplay, mainMenuDisplay, pauseMenuDisplay, difficultyMenuDisplay, leaderboardsMenuDisplay, loginMenuDisplay, registerMenuDisplay];
 
 const difficultyUIText = document.querySelector("#ui-difficulty");
 
@@ -16,8 +20,19 @@ const difficultyUIText = document.querySelector("#ui-difficulty");
 
 let activeTab = mainMenuDisplay;
 function selectActiveTab(active) {
+    if (active.matches("#login-menu") || active.matches("#register-menu"))
+        uiDisplay.style.display = "none";
+    else
+        uiDisplay.style.display = "flex";
+
+    if (active.matches("#game") || active.matches("#pause-menu"))
+        uiLoginButton.style.display = "none";
+    else
+        uiLoginButton.style.display = "flex";
+
     displays.forEach(element => {
         if (!(element === active) )
+
             element.style.display = "none";
         else
             element.style.display = "flex";
@@ -73,13 +88,20 @@ document.body.addEventListener("click", (event) => {
         selectActiveTab(mainMenuDisplay);
         previousScoreText.innerHTML = "Previous score: " + scoreCount;
     }
-    else if (event.target.matches("#login-button"))
+    else if (event.target.matches("#ui-login-button"))
+        selectActiveTab(loginMenuDisplay);
+    else if (event.target.matches("#login-to-register"))
+        selectActiveTab(registerMenuDisplay);
+    else if (event.target.matches("#register-to-login"))
         selectActiveTab(loginMenuDisplay);
 
-    /*switch (event.target) {
-        case "#new-game-button":
+    /*
+    switch (event.target) {
+        case document.querySelector("#new-game-button"):
+            alert("test");
             break;
-    }*/
+    }
+    */
 });
 
 //endregion
