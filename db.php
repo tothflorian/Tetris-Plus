@@ -1,8 +1,11 @@
 <?php
-$host = "mysql.caesar.elte.hu";
-$user = "tothflorian";
-$dbname = "tothflorian";
-$pass = ""; //password missing
+
+$config = parse_ini_file("config.env");
+
+$host = $config['DB_HOST'];
+$user = $config['DB_USER'];
+$dbname = $config['DB_NAME'];
+$pass = $config['DB_PASS'];
 
 $conn = new mysqli($host, $user, $pass, $dbname);
 
