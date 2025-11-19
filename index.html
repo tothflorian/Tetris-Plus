@@ -67,7 +67,7 @@
     <div id="login-menu" class="tab menu">
         <h1>LOGIN</h1>
 
-        <form method="post" action="login.php">
+        <form method="post" id="login-form" action="login.php">
 
             <div>
                 <label for="login-username">Username</label>
@@ -80,7 +80,7 @@
             </div>
 
             <a id="login-to-register">Don't have an account yet? Click here to register!</a>
-            <button type="button" id="login-button">Login</button>
+            <button type="submit" id="login-button">Login</button>
 
         </form>
 
@@ -91,7 +91,7 @@
     <div id="register-menu" class="tab menu">
         <h1>REGISTER</h1>
 
-        <form method="post" action="register.php">
+        <form method="post" id="register-form" action="register.php">
 
             <div>
                 <label for="register-username">Username</label>
@@ -109,7 +109,7 @@
             </div>
 
             <a id="register-to-login">I already have an account</a>
-            <button type="button" id="register-button">Register</button>
+            <button type="submit" id="register-button">Register</button>
 
         </form>
 
