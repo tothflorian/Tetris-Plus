@@ -20,7 +20,7 @@
         </div>
 
         <h4>Username: Guest</h4>
-        <a id="ui-login-button">Login</a>
+        <button id="ui-login-button">Login</button>
 
     </div>
 
@@ -79,11 +79,11 @@
                 <input type="password" id="login-password" name="password" placeholder="Enter your password">
             </div>
 
-            <p id="login-to-register">Don't have an account yet? Click here to register!</p>
+            <a id="login-to-register">Don't have an account yet? Click here to register!</a>
+            <button type="button" id="login-button">Login</button>
 
         </form>
 
-        <button id="login-button">Login</button>
         <button class="back-button">Back</button>
 
     </div>
@@ -108,8 +108,9 @@
                 <input type="password" id="register-repeat-password" name="repeat-password" placeholder="Ig. Same as the previous box...">
             </div>
 
-            <p id="register-to-login">I already have an account</p>
-            <button id="register-button">Register</button>
+            <a id="register-to-login">I already have an account</a>
+            <button type="button" id="register-button">Register</button>
+
         </form>
 
         <button class="back-button">Back</button>
@@ -118,6 +119,7 @@
 
 </body>
 <script src="tetrisMenu.js"></script>
+<script src="tetrisUserLogin.js"></script>
 <script src="tetrisGamePiece.js"></script>
 <script src="tetrisGameLogic.js"></script>
 <script src="tetrisGameAudio.js"></script>

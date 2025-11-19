@@ -26,7 +26,7 @@ document.querySelector("#login-button").onclick = async () => {
     let text = await res.text();
 
     if (text === "SUCCESS") {
-        window.location.href = "dashboard.php";
+        window.location.href = "index.html";
     } else {
         alert(text);
     }
