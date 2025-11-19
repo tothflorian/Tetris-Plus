@@ -1,3 +1,5 @@
+const uiUsername = document.querySelector("#ui-username");
+
 document.querySelector("#register-button").onclick = async () => {
     event.preventDefault();
 
@@ -12,18 +14,13 @@ document.querySelector("#register-button").onclick = async () => {
     });
 
     let json = await res.json();
-    let status = res.status;
 
-    if (status === 200) {
+    if (json.success) {
         alert(json.message);
         selectActiveTab(loginMenuDisplay);
     }
-    else if (status === 400)
-        alert(json.error);
-    else if (status === 401)
-        alert(json.error);
     else
-        alert("Unknown error: (" + status + ")");
+        alert(json.error);
 };
 
 document.querySelector("#login-button").onclick = async () => {
@@ -39,14 +36,24 @@ document.querySelector("#login-button").onclick = async () => {
     });
 
     let json = await res.json();
-    let status = res.status;
 
-    if (status === 200)
+    if (json.success) {
+        await authenticateUserLogin();
         window.location.href = "index.html";
-    else if (status === 400)
-        alert(json.error);
-    else if (status === 401)
-        alert(json.error);
+    }
     else
-        alert("Unknown error: (" + status + ")");
+        alert(json.error);
+
 };
+
+async function authenticateUserLogin() {
+    let res = await fetch("httpAuth.php");
+    let auth = await res.json();
+
+    if (auth.loggedIn) {
+        uiUsername.innerHTML = "Username: " + auth.username;
+    }
+    else {
+        uiUsername.innerHTML = "Username: Guest";
+    }
+}

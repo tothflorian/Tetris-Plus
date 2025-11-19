@@ -8,12 +8,10 @@ $username = $_POST['username'];
 $password = $_POST['password'];
 
 if (!preg_match('/^[a-zA-Z0-9_]{3,20}$/', $username)) {
-    http_response_code(400);
     echo json_encode(["success" => false, "error" => "Invalid format! Username must be 3-20 characters long."]);
     exit;
 }
 if (!preg_match('/^[a-zA-Z0-9_]{3,24}$/', $password)) {
-    http_response_code(400);
     echo json_encode(["success" => false, "error" => "Invalid format! Password must be 3-24 characters long."]);
     exit;
 }
@@ -24,7 +22,6 @@ $stmt->execute();
 $stmt->store_result();
 
 if ($stmt->num_rows === 0) {
-    http_response_code(401);
     echo json_encode(["success" => false, "error" => "Invalid credentials!"]);
     exit;
 }
@@ -36,9 +33,7 @@ if (password_verify($password, $hashed_password)) {
     $_SESSION['user_id'] = $id;
     $_SESSION['username'] = $username;
 
-    http_response_code(200);
     echo json_encode(["success" => true]);
-} else {
-    http_response_code(401);
-    echo json_encode(["success" => false, "error" => "Invalid credentials!"]);
 }
+else
+    echo json_encode(["success" => false, "error" => "Invalid credentials!"]);
