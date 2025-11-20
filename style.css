@@ -6,7 +6,7 @@
 }
 
 body {
-    background-image: url("./res/index-bg.png");
+    background-image: url("resources/index-bg.png");
     background-size: cover;
     display: flex;
     align-items: center;
@@ -66,10 +66,10 @@ body {
 }
 
 .diff-elem {
-    background-image: url("./res/button-lightblue.png");
+    background-image: url("resources/button-lightblue.png");
 }
 .diff-elem:hover {
-    background-image: url("./res/button-darkblue.png");
+    background-image: url("resources/button-darkblue.png");
 }
 
 /*BUTTONS*/
@@ -88,16 +88,16 @@ body {
 }
 
 #pause-resume-button {
-    background-image: url("./res/button-yellow.png");
+    background-image: url("resources/button-yellow.png");
 }
 #new-game-button, #login-button, #register-button {
-    background-image: url("./res/button-teal.png");
+    background-image: url("resources/button-teal.png");
 }
 #difficulty-button {
-    background-image: url("./res/button-lightblue.png");
+    background-image: url("resources/button-lightblue.png");
 }
 #leaderboards-button, .back-button {
-    background-image: url("./res/button-pink.png");
+    background-image: url("resources/button-pink.png");
 }
 
 /*MENU*/
@@ -133,17 +133,17 @@ body {
 /*TRANSITIONS*/
 
 #pause-resume-button:hover {
-    background-image: url("./res/button-orange.png");
+    background-image: url("resources/button-orange.png");
 
 }
 #new-game-button:hover, #login-button:hover, #register-button:hover {
-    background-image: url("./res/button-green.png");
+    background-image: url("resources/button-green.png");
 }
 #difficulty-button:hover {
-    background-image: url("./res/button-darkblue.png");
+    background-image: url("resources/button-darkblue.png");
 }
 #leaderboards-button:hover, .back-button:hover {
-    background-image: url("./res/button-purple.png");
+    background-image: url("resources/button-purple.png");
 }
 
 #score {
@@ -151,7 +151,7 @@ body {
 }
 
 #map {
-    background-image: url("./res/tetris-bg.png");
+    background-image: url("resources/tetris-bg.png");
     background-size: cover;
     box-shadow: 0 0 36px 0 lightgrey;
 }
@@ -172,7 +172,7 @@ body {
     text-shadow: 0 0 12px #fff;
 }
 #next-piece {
-    background-image: url("./res/tetris-bg.png");
+    background-image: url("resources/tetris-bg.png");
     background-size: auto;
 }
 
@@ -197,4 +197,10 @@ body {
     cursor: pointer;
     font-size: 1rem;
     transition: background 0.2s;
+}
+
+/*UI login*/
+
+#ui-logout-button {
+    display: none;
 }

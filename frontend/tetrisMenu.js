@@ -1,6 +1,7 @@
 //#region DOM Elements
 
 const uiLoginButton = document.querySelector("#ui-login-button");
+const uiLogoutButton = document.querySelector("#ui-logout-button");
 
 const gameDisplay = document.querySelector("#game");
 const mainMenuDisplay = document.querySelector("#main-menu");

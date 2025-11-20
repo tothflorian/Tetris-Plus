@@ -1,3 +1,10 @@
+<?php
+session_start();
+
+$isLoggedIn = isset($_SESSION['username']);
+$username = $isLoggedIn ? $_SESSION['username'] : "Guest";
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +12,7 @@
     <meta charset="UTF-8">
     <title>Tetris</title>
     <link rel="stylesheet" href="./style.css">
-    <link rel="icon" type="image/x-icon" href="./res/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="resources/favicon.ico">
 </head>
 
 <body>
@@ -21,11 +28,12 @@
 
         <h4 id="ui-username">Username: Guest</h4>
         <button id="ui-login-button">Login</button>
+        <button id="ui-logout-button">Logout</button>
 
     </div>
 
     <div id="main-menu" class="tab menu">
-        <img src="./res/tetris-plus-logo.png" alt="main logo" style="width: 35%">
+        <img src="resources/tetris-plus-logo.png" alt="main logo" style="width: 35%">
         <h4 id="previous-score" style="margin: 2% 0 1% 0">Previous score: NONE</h4>
         <button id="new-game-button">New Game</button>
         <button id="difficulty-button">Difficulty</button>
@@ -33,7 +41,7 @@
     </div>
 
     <div id="pause-menu" class="tab menu">
-        <img src="./res/tetris-plus-logo.png" alt="main logo" style="width: 35%; margin-bottom: 2%">
+        <img src="resources/tetris-plus-logo.png" alt="main logo" style="width: 35%; margin-bottom: 2%">
         <button id="pause-resume-button">Resume</button>
         <button id="pause-back-button" class="back-button">Quit</button>
     </div>
@@ -67,7 +75,7 @@
     <div id="login-menu" class="tab menu">
         <h1>LOGIN</h1>
 
-        <form method="post" id="login-form" action="login.php">
+        <form method="post" id="login-form" action="backend/auth/login.php">
 
             <div>
                 <label for="login-username">Username</label>
@@ -91,7 +99,7 @@
     <div id="register-menu" class="tab menu">
         <h1>REGISTER</h1>
 
-        <form method="post" id="register-form" action="register.php">
+        <form method="post" id="register-form" action="backend/auth/register.php">
 
             <div>
                 <label for="register-username">Username</label>
@@ -118,9 +126,9 @@
     </div>
 
 </body>
-<script src="tetrisMenu.js"></script>
-<script src="tetrisUserLogin.js"></script>
-<script src="tetrisGamePiece.js"></script>
-<script src="tetrisGameLogic.js"></script>
-<script src="tetrisGameAudio.js"></script>
+<script src="frontend/tetrisMenu.js"></script>
+<script src="frontend/tetrisUserLogin.js"></script>
+<script src="frontend/tetrisGamePiece.js"></script>
+<script src="frontend/tetrisGameLogic.js"></script>
+<script src="frontend/tetrisGameAudio.js"></script>
 </html>

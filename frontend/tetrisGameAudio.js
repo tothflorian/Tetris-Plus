@@ -7,8 +7,8 @@ const musicPauseButton = document.querySelector("#music-pause-button");
 
 //region Audio Source
 
-const theme = new Audio("./res/theme.mp3");
-const clickSound = new Audio("./res/button-click.mp3");
+const theme = new Audio("./resources/theme.mp3");
+const clickSound = new Audio("./resources/button-click.mp3");
 
 //endregion
 

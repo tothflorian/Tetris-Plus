@@ -8,7 +8,7 @@ document.querySelector("#register-button").onclick = async () => {
     data.append("password", document.querySelector("#register-password").value);
     data.append("repeat-password", document.querySelector("#register-repeat-password").value);
 
-    let res = await fetch("register.php", {
+    let res = await fetch("../backend/auth/register.php", {
         method: "POST",
         body: data
     });
@@ -30,7 +30,7 @@ document.querySelector("#login-button").onclick = async () => {
     data.append("username", document.querySelector("#login-username").value);
     data.append("password", document.querySelector("#login-password").value);
 
-    let res = await fetch("login.php", {
+    let res = await fetch("../backend/auth/login.php", {
         method: "POST",
         body: data
     });
@@ -38,22 +38,26 @@ document.querySelector("#login-button").onclick = async () => {
     let json = await res.json();
 
     if (json.success) {
-        await authenticateUserLogin();
-        window.location.href = "index.html";
+        alert(json.message);
+        window.location.href = "../index.php";
+        uiLoginButton.style.display = "none";
+        uiLogoutButton.style.display = "flex";
     }
     else
         alert(json.error);
 
 };
 
-async function authenticateUserLogin() {
-    let res = await fetch("httpAuth.php");
-    let auth = await res.json();
+document.querySelector("#ui-logout-button").onclick = () => {
+    fetch("../backend/auth/logout.php").then(
+        response => response.json()).then(
+            json => {
+                if (json.success) {
+                    uiUsername.innerHTML = "Username: Guest";
 
-    if (auth.loggedIn) {
-        uiUsername.innerHTML = "Username: " + auth.username;
-    }
-    else {
-        uiUsername.innerHTML = "Username: Guest";
-    }
+                    uiLoginButton.style.display = "flex";
+                    uiLogoutButton.style.display = "none";
+                }
+            }
+    )
 }

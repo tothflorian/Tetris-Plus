@@ -51,7 +51,7 @@ const BLOCK_SIZE = 32;
 const COLORS = 9;
 
 const blocksSpriteSheet = new Image();
-blocksSpriteSheet.src = "./res/blocks-sprite-sheet.png";
+blocksSpriteSheet.src = "./resources/blocks-sprite-sheet.png";
 
 //endregion
 

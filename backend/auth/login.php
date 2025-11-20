@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'db.php';
+require '../db.php';
 
 header('Content-Type: application/json');
 
@@ -33,7 +33,7 @@ if (password_verify($password, $hashed_password)) {
     $_SESSION['user_id'] = $id;
     $_SESSION['username'] = $username;
 
-    echo json_encode(["success" => true]);
+    echo json_encode(["success" => true, "message" => "Successfully logged in! Redirecting..."]);
 }
 else
     echo json_encode(["success" => false, "error" => "Invalid credentials!"]);
