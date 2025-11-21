@@ -37,11 +37,11 @@ body {
     padding: 0;
 }
 
-.menu button {
+.menu button, #leaderboard-back-button {
     position: relative;
     z-index: 0;
 }
-.menu button::before {
+.menu button::before, #leaderboard-back-button:before {
     content: "";
     position: absolute;
     inset: 0;
@@ -74,7 +74,7 @@ body {
 
 /*BUTTONS*/
 
-.menu button {
+.menu button, #leaderboard-back-button {
     font-family: monospace;
     font-size: clamp(1rem, 2vw, 1.4rem);
     width: clamp(150px, 25vw, 300px);
@@ -96,7 +96,7 @@ body {
 #difficulty-button {
     background-image: url("resources/button-lightblue.png");
 }
-#leaderboards-button, .back-button {
+#leaderboard-button, #leaderboard-back-button, .back-button {
     background-image: url("resources/button-pink.png");
 }
 
@@ -105,7 +105,7 @@ body {
 #game,
 #pause-menu,
 #difficulty-menu,
-#leaderboards-menu,
+#leaderboard-menu,
 #login-menu,
 #register-menu {
     display: none;
@@ -142,7 +142,7 @@ body {
 #difficulty-button:hover {
     background-image: url("resources/button-darkblue.png");
 }
-#leaderboards-button:hover, .back-button:hover {
+#leaderboard-button:hover, .back-button:hover {
     background-image: url("resources/button-purple.png");
 }
 

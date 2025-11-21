@@ -7,11 +7,11 @@ const gameDisplay = document.querySelector("#game");
 const mainMenuDisplay = document.querySelector("#main-menu");
 const pauseMenuDisplay = document.querySelector("#pause-menu");
 const difficultyMenuDisplay = document.querySelector("#difficulty-menu");
-const leaderboardsMenuDisplay = document.querySelector("#leaderboards-menu");
+const leaderboardMenuDisplay = document.querySelector("#leaderboard-menu");
 const loginMenuDisplay = document.querySelector("#login-menu");
 const registerMenuDisplay = document.querySelector("#register-menu");
 const uiDisplay = document.querySelector("#ui");
-const displays = [gameDisplay, mainMenuDisplay, pauseMenuDisplay, difficultyMenuDisplay, leaderboardsMenuDisplay, loginMenuDisplay, registerMenuDisplay];
+const displays = [gameDisplay, mainMenuDisplay, pauseMenuDisplay, difficultyMenuDisplay, leaderboardMenuDisplay, loginMenuDisplay, registerMenuDisplay];
 
 const difficultyUIText = document.querySelector("#ui-difficulty");
 
@@ -78,8 +78,8 @@ document.body.addEventListener("click", (event) => {
     else if (event.target.matches("#difficulty-button")) {
         selectActiveTab(difficultyMenuDisplay);
     }
-    else if (event.target.matches("#leaderboards-button")) {
-        selectActiveTab(leaderboardsMenuDisplay);
+    else if (event.target.matches("#leaderboard-button")) {
+        window.location.pathname = '../leaderboard.php';
     }
     else if (event.target.matches("#easy-button")) {
         gameDifficulty = Difficulty.EASY;
