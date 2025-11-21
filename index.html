@@ -1,10 +1,3 @@
-<?php
-session_start();
-
-$isLoggedIn = isset($_SESSION['username']);
-$username = $isLoggedIn ? $_SESSION['username'] : "Guest";
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,9 +19,12 @@ $username = $isLoggedIn ? $_SESSION['username'] : "Guest";
             <button id="music-pause-button">▶️</button>
         </div>
 
-        <h4 id="ui-username">Username: Guest</h4>
-        <button id="ui-login-button">Login</button>
-        <button id="ui-logout-button">Logout</button>
+        <div class="ui-div">
+            <h4>Username:</h4>
+            <h4 id="ui-username">Guest</h4>
+            <button id="ui-login-button">Login</button>
+            <button id="ui-logout-button">Logout</button>
+        </div>
 
     </div>
 
@@ -67,7 +63,7 @@ $username = $isLoggedIn ? $_SESSION['username'] : "Guest";
     <div id="leaderboards-menu" class="tab menu">
         <h1>LEADERBOARDS</h1>
 
-        <p>hello :)</p>
+        <p>Under maintenance.</p>
 
         <button class="back-button leaderboards-elem">Back</button>
     </div>

@@ -26,11 +26,6 @@ function selectActiveTab(active) {
     else
         uiDisplay.style.display = "flex";
 
-    if (active.matches("#game") || active.matches("#pause-menu"))
-        uiLoginButton.style.display = "none";
-    else
-        uiLoginButton.style.display = "flex";
-
     displays.forEach(element => {
         if (!(element === active) )
 
@@ -39,6 +34,21 @@ function selectActiveTab(active) {
             element.style.display = "flex";
         activeTab = active;
     });
+}
+
+async function updateUI() {
+    const session = await getSession();
+
+    if (session.loggedIn) {
+        uiLoginButton.style.display = "none";
+        uiLogoutButton.style.display = "flex";
+        uiUsername.innerHTML = session.username;
+    }
+    else {
+        uiLoginButton.style.display = "flex";
+        uiLogoutButton.style.display = "none";
+        uiUsername.innerHTML = "Guest";
+    }
 }
 
 function pauseGame() {

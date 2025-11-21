@@ -1,3 +1,5 @@
+const isLoggedIn = localStorage.getItem("isLoggedIn");
+
 const uiUsername = document.querySelector("#ui-username");
 
 document.querySelector("#register-button").onclick = async () => {
@@ -39,25 +41,27 @@ document.querySelector("#login-button").onclick = async () => {
 
     if (json.success) {
         alert(json.message);
-        window.location.href = "../index.php";
+
+        uiUsername.innerHTML = json.username;
+
         uiLoginButton.style.display = "none";
         uiLogoutButton.style.display = "flex";
+
+        selectActiveTab(mainMenuDisplay);
     }
     else
         alert(json.error);
-
 };
 
-document.querySelector("#ui-logout-button").onclick = () => {
-    fetch("../backend/auth/logout.php").then(
-        response => response.json()).then(
-            json => {
-                if (json.success) {
-                    uiUsername.innerHTML = "Username: Guest";
+document.querySelector("#ui-logout-button").onclick = async () => {
+    await fetch("../backend/auth/logout.php");
 
-                    uiLoginButton.style.display = "flex";
-                    uiLogoutButton.style.display = "none";
-                }
-            }
-    )
+    await updateUI();
+
+    alert("Logged out successfully.");
+}
+
+async function getSession() {
+    let response = await fetch("../backend/auth/session.php");
+    return await response.json();
 }

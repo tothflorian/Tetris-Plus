@@ -201,6 +201,14 @@ body {
 
 /*UI login*/
 
+.ui-div {
+    display: flex;
+    flex-direction: row;
+}
+.ui-div h4, .ui-div button {
+    margin-right: 3%;
+}
+
 #ui-logout-button {
     display: none;
 }
