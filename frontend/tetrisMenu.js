@@ -80,7 +80,7 @@ document.body.addEventListener("click", (event) => {
         selectActiveTab(difficultyMenuDisplay);
     }
     else if (event.target.matches("#leaderboard-button")) {
-        window.location.replace('leaderboard.php');
+        selectActiveTab(leaderboardMenuDisplay);
     }
     else if (event.target.matches("#easy-button")) {
         gameDifficulty = Difficulty.EASY;

@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="./style.css">
     <link rel="icon" type="image/x-icon" href="resources/favicon.ico">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npt/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <body>
@@ -26,7 +28,6 @@
             <button id="ui-login-button">Login</button>
             <button id="ui-logout-button">Logout</button>
         </div>
-        <p>Switches back to guest after clicking leaderboards and back if logged in.</p>
 
     </div>
 
@@ -62,12 +63,43 @@
         </div>
     </div>
 
-    <div id="leaderboard-menu" class="tab menu">
-        <h1>LEADERBOARD</h1>
+    <div id="leaderboard-menu" class="tab menu container mt-3">
 
-        <p>Under maintenance.</p>
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Username</th>
+                <th scope="col">Score</th>
+            </tr>
+            </thead>
+            <tbody>
 
-        <button class="back-button leaderboard-elem">Back</button>
+            <?php
+            require __DIR__ . '/backend/db.php';
+
+            $sql = "SELECT u.username, l.score FROM leaderboard l JOIN users u ON u.id = l.user_id ORDER BY l.score DESC";
+            $run = mysqli_query($conn, $sql);
+
+            $n = 1;
+
+            while ($row = mysqli_fetch_assoc($run)) {
+
+                ?>
+
+                <tr>
+                    <th scope="row"><?php print($n) ?></th>
+                    <td><?php echo $row['username'] ?></td>
+                    <td><?php echo $row['score'] ?></td>
+                </tr>
+
+                <?php $n += 1; } ?>
+
+            </tbody>
+        </table>
+
+        <button class="back-button">Back</button>
+
     </div>
 
     <div id="login-menu" class="tab menu">
