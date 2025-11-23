@@ -1,7 +1,3 @@
-const isLoggedIn = localStorage.getItem("isLoggedIn");
-
-const uiUsername = document.querySelector("#ui-username");
-
 document.querySelector("#register-button").onclick = async () => {
     event.preventDefault();
 
@@ -62,6 +58,6 @@ document.querySelector("#ui-logout-button").onclick = async () => {
 }
 
 async function getSession() {
-    let response = await fetch("../backend/auth/session.php");
+    let response = await fetch("backend/auth/session.php");
     return await response.json();
 }

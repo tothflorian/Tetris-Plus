@@ -52,7 +52,7 @@
     <script>
         document.body.addEventListener ("click", () => {
             if (event.target.matches("#leaderboard-back-button"))
-                window.location.pathname = '../index.html';
+                window.location.replace('index.php');
         });
     </script>
 </html>

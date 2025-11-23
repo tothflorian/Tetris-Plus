@@ -26,6 +26,7 @@
             <button id="ui-login-button">Login</button>
             <button id="ui-logout-button">Logout</button>
         </div>
+        <p>Switches back to guest after clicking leaderboards and back if logged in.</p>
 
     </div>
 

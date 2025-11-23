@@ -1,5 +1,6 @@
 //#region DOM Elements
 
+const uiUsername = document.querySelector("#ui-username");
 const uiLoginButton = document.querySelector("#ui-login-button");
 const uiLogoutButton = document.querySelector("#ui-logout-button");
 
@@ -79,7 +80,7 @@ document.body.addEventListener("click", (event) => {
         selectActiveTab(difficultyMenuDisplay);
     }
     else if (event.target.matches("#leaderboard-button")) {
-        window.location.pathname = '../leaderboard.php';
+        window.location.replace('leaderboard.php');
     }
     else if (event.target.matches("#easy-button")) {
         gameDifficulty = Difficulty.EASY;
