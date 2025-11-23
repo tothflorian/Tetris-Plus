@@ -22,10 +22,12 @@ const difficultyUIText = document.querySelector("#ui-difficulty");
 
 let activeTab = mainMenuDisplay;
 function selectActiveTab(active) {
-    if (active.matches("#login-menu") || active.matches("#register-menu"))
-        uiDisplay.style.display = "none";
-    else
-        uiDisplay.style.display = "flex";
+    updateUI().then(() => {
+        if (active.matches("#login-menu") || active.matches("#register-menu"))
+            uiDisplay.style.display = "none";
+        else
+            uiDisplay.style.display = "flex";
+    });
 
     displays.forEach(element => {
         if (!(element === active) )

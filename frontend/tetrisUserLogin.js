@@ -43,7 +43,7 @@ document.querySelector("#login-button").onclick = async () => {
         uiLoginButton.style.display = "none";
         uiLogoutButton.style.display = "flex";
 
-        selectActiveTab(mainMenuDisplay);
+        selectActiveTab(activeTab); // not working 100%
     }
     else
         alert(json.error);
