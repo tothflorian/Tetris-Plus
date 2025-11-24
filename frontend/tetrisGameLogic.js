@@ -340,11 +340,13 @@ async function fallingPiece(piece) {
     }
 }
 
-function hardDrop(piece) {
-    if (isAnimating)
+async function hardDrop(piece) {
+    if (isAnimating || !isGameRunning)
         return;
+
     while (!isColliding(piece.x, piece.y + 1, piece.matrix)) {
-        fallingPiece(piece).then(() => {});
+        await fallingPiece(piece);
+        if (!isGameRunning) break;
     }
 }
 
@@ -449,6 +451,8 @@ document.addEventListener("keydown", (event) => {
 });
 
 document.addEventListener("gameOver", async () => {
+    isGameRunning = false;
+
     if (scoreCount > 0) {
         const session = await getSession();
         console.log(session);
@@ -471,7 +475,6 @@ document.addEventListener("gameOver", async () => {
     refreshScoreboard(0, false);
 
     grid = generateGrid();
-    isGameRunning = false;
     selectActiveTab(mainMenuDisplay);
 });
 

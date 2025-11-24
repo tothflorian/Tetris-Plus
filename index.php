@@ -56,12 +56,14 @@
     </div>
 
     <div id="game" class="tab">
-        <p id="score" style="margin-bottom: 4%">Score: 0</p>
-        <canvas id="map" height="640" width="320"></canvas>
-        <div id="next-container">
-            <div id="next-label">Next piece</div>
-            <canvas id="next-piece"></canvas>
-            <div>Esc to pause game...</div>
+        <div class="game-container">
+            <p id="score" style="margin-bottom: 4%">Score: 0</p>
+            <canvas id="map" height="640" width="320"></canvas>
+            <div id="next-container">
+                <div id="next-label">Next piece</div>
+                <canvas id="next-piece"></canvas>
+                <div>Esc to pause game...</div>
+            </div>
         </div>
     </div>
 
