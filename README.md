@@ -59,6 +59,20 @@ JavaScript technikák:
   - A játék fő logikai mozgatórugója a gameLoop() ciklusában zajlik, ami a requestAnimationFrame() callback függvényeként aszinkron módon generálja a képkockákat.
   - A rajzolási folyamat minden képkockánál törli és újrarajzolja a pályát, biztosítva a sima mozgást. Ilyen volumenű játéknál még ez szinte triviális terhelés.
 
+PHP technikák:
+-
+- I. Adatbázis
+  - A PHP funkciók adathalmazának alapjául szolgáló platform a MySQL, amivel kapcsolatban áll a backend, függ tőle.
+  - A két megközelítés közül (PDO - többféle adatbázishoz, mysqli - MySQL) a mysqli-t választottam a projektemhez, mivel ez MySQL adatbázis esetén gyorsabban működik, mint a PDO-s megoldás.
+- II. User login rendszer
+  - A felhasználó tud saját fiókot regisztrálni, abba bejelentkezni és tetszés szerint kijelentkezni is.
+  - Ez a funkció session segítségével valósul meg. 
+- III. Eredménytábla
+  - A felhasználó eredményei felkerülnek az eredménytáblába, amennyiben nincsen bejelentkezve, automatikusan Vendég (Guest) néven rögzíti az elért eredményt.
+  - Több segédfüggvény a fetch() függvény használatával összekötik a frontend-et a backend-del.
+  - A játéklogika (tetrisGameLogic.js) gameOver eseménye feltölti az elért eredményt és a hozzá tartozó felhasználót az adatbázisba.
+  - A főoldal (index.php) leaderboard részén a tábla PHP kóddal kéri le az adatbázisból a már rögzített eredményeket, majd jeleníti meg egy dinamikus méretű táblában.
+
 # English version:
 
 This is my first JavaScript project.
@@ -120,3 +134,17 @@ JavaScript techniques:
   - Rendering is 2D using canvas.getContext("2d").
   - The game’s main logical engine runs in the gameLoop() cycle, which asynchronously generates frames via requestAnimationFrame() callbacks.
   - Each frame clears and redraws the field to ensure smooth motion. For a game of this scale, the load is practically trivial.
+
+PHP techniques:
+-
+- I. Database
+  - The PHP mechanics using data in this project are relying on MySQL, which depends on the backend it's connected to.
+  - From the two options (PDO - for a variety of databases, mysqli - MySQL) I chose mysqli for my project, as it works faster when it comes to MySQL database, than the PDO version.
+- II. User login system
+  - The user can register their own account, log in and log out at will.
+  - This mechanic uses sessions. 
+- III. Leaderboard
+  - The users scores are uploaded to the database. If they aren't logged in, the score uploads with the Guest username by default.
+  - Several auxiliary functions are connecting the frontend and the backend using the fetch() function.
+  - The gameOver event inside game logic (tetrisGameLogic.js) uploads the user and their score to the database.
+  - At the leaderboard menupoint the table uses PHP code to fetch the records data, then lists them in this dynamic table.
