@@ -25,36 +25,38 @@
         <div class="ui-div">
             <h4>Username:</h4>
             <h4 id="ui-username">Guest</h4>
-            <button id="ui-login-button">Login</button>
-            <button id="ui-logout-button">Logout</button>
         </div>
+
+        <button id="ui-login-button">Login</button>
+        <button id="ui-logout-button">Logout</button>
 
     </div>
 
     <div id="main-menu" class="tab menu">
-        <img src="resources/tetris-plus-logo.png" alt="main logo" style="width: 35%">
-        <h4 id="previous-score" style="margin: 2% 0 1% 0">Previous score: NONE</h4>
+        <img src="resources/tetris-plus-logo.png" class="tetris-logo" alt="Tetris logo">
+        <h4 id="previous-score">Previous score: NONE</h4>
         <button id="new-game-button">New Game</button>
         <button id="difficulty-button">Difficulty</button>
         <button id="leaderboard-button">Leaderboard</button>
     </div>
 
     <div id="pause-menu" class="tab menu">
-        <img src="resources/tetris-plus-logo.png" alt="main logo" style="width: 35%; margin-bottom: 2%">
+        <h1>PAUSE</h1>
+        <img src="resources/tetris-plus-logo.png" class="tetris-logo" alt="Tetris logo">
         <button id="pause-resume-button">Resume</button>
         <button id="pause-quit-button" class="back-button">Quit</button>
     </div>
 
     <div id="difficulty-menu" class="tab menu">
         <h1>DIFFICULTY</h1>
-        <button id="easy-button" class="diff-elem">Easy</button>
-        <button id="medium-button" class="diff-elem">Medium</button>
-        <button id="hard-button" class="diff-elem">Hard</button>
-        <button class="back-button diff-elem">Back</button>
+        <button id="easy-button">Easy</button>
+        <button id="medium-button">Medium</button>
+        <button id="hard-button">Hard</button>
+        <button class="back-button">Back</button>
     </div>
 
     <div id="game" class="tab">
-        <p id="score" style="margin-bottom: 5%">Score: 0</p>
+        <p id="score" style="margin-bottom: 4%">Score: 0</p>
         <canvas id="map" height="640" width="320"></canvas>
         <div id="next-container">
             <div id="next-label">Next piece</div>
@@ -65,40 +67,48 @@
 
     <div id="leaderboard-menu" class="tab menu container mt-3">
 
-        <table class="table">
-            <thead class="thead-dark">
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Username</th>
-                <th scope="col">Score</th>
-            </tr>
-            </thead>
-            <tbody>
+        <div class="leaderboard-content">
 
-            <?php
-            require __DIR__ . '/backend/db.php';
+            <h1>LEADERBOARD</h1>
 
-            $sql = "SELECT u.username, l.score FROM leaderboard l JOIN users u ON u.id = l.user_id ORDER BY l.score DESC";
-            $run = mysqli_query($conn, $sql);
+            <div class="table-container">
+                <table class="table">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Score</th>
+                    </tr>
+                    </thead>
+                    <tbody>
 
-            $n = 1;
+                    <?php
+                    require __DIR__ . '/backend/db.php';
 
-            while ($row = mysqli_fetch_assoc($run)) {
+                    $sql = "SELECT u.username, l.score FROM leaderboard l JOIN users u ON u.id = l.user_id ORDER BY l.score DESC";
+                    $run = mysqli_query($conn, $sql);
 
-            ?>
+                    $n = 1;
 
-                <tr>
-                    <th scope="row"><?php print($n) ?></th>
-                    <td><?php echo $row['username'] ?></td>
-                    <td><?php echo $row['score'] ?></td>
-                </tr>
+                    while ($row = mysqli_fetch_assoc($run)) {
 
-                <?php $n += 1; } ?>
+                    ?>
 
-            </tbody>
-        </table>
+                        <tr>
+                            <th scope="row"><?php print($n) ?></th>
+                            <td><?php echo $row['username'] ?></td>
+                            <td><?php echo $row['score'] ?></td>
+                        </tr>
 
-        <button class="back-button">Back</button>
+                        <?php $n += 1; } ?>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <button class="back-button">Back</button>
+
+        </div>
 
     </div>
 
