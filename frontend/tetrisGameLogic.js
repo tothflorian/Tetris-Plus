@@ -413,6 +413,13 @@ function isColliding(x, y, rotatedPiece){
 //endregion
 
 //region Game Events
+document.addEventListener("click", (event) => {
+    if (event.target.matches("#pause-quit-button"))
+    {
+        const gameOverEvent = new CustomEvent("gameOver", { detail: { score: scoreCount } });
+        document.dispatchEvent(gameOverEvent);
+    }
+});
 
 document.addEventListener("keydown", (event) => {
     if (activeTab === gameDisplay && currentPiece !== null) {
@@ -441,7 +448,24 @@ document.addEventListener("keydown", (event) => {
     }
 });
 
-document.addEventListener("gameOver", () => {
+document.addEventListener("gameOver", async () => {
+    if (scoreCount > 0) {
+        const session = await getSession();
+        console.log(session);
+
+        const username = session.username;
+        const user_id = await getUserId(username);
+
+        console.log(user_id);
+
+        const data = [
+            user_id,
+            scoreCount
+        ]
+
+        await sendScore(user_id, scoreCount);
+    }
+
     previousScoreText.innerHTML = "Previous score: " + scoreCount;
 
     refreshScoreboard(0, false);

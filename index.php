@@ -42,7 +42,7 @@
     <div id="pause-menu" class="tab menu">
         <img src="resources/tetris-plus-logo.png" alt="main logo" style="width: 35%; margin-bottom: 2%">
         <button id="pause-resume-button">Resume</button>
-        <button id="pause-back-button" class="back-button">Quit</button>
+        <button id="pause-quit-button" class="back-button">Quit</button>
     </div>
 
     <div id="difficulty-menu" class="tab menu">
@@ -85,7 +85,7 @@
 
             while ($row = mysqli_fetch_assoc($run)) {
 
-                ?>
+            ?>
 
                 <tr>
                     <th scope="row"><?php print($n) ?></th>

@@ -21,7 +21,7 @@ document.querySelector("#register-button").onclick = async () => {
         alert(json.error);
 };
 
-document.querySelector("#login-button").onclick = async () => {
+document.querySelector("#login-button").onclick = async (event) => {
     event.preventDefault();
 
     const data = new FormData();
@@ -40,10 +40,7 @@ document.querySelector("#login-button").onclick = async () => {
 
         uiUsername.innerHTML = json.username;
 
-        uiLoginButton.style.display = "none";
-        uiLogoutButton.style.display = "flex";
-
-        selectActiveTab(activeTab); // not working 100%
+        selectActiveTab(lastActiveTab);
     }
     else
         alert(json.error);
@@ -60,4 +57,18 @@ document.querySelector("#ui-logout-button").onclick = async () => {
 async function getSession() {
     let response = await fetch("backend/auth/session.php");
     return await response.json();
+}
+
+async function getUserId(username) {
+    const response = await fetch("backend/getUserID.php?username=" + encodeURIComponent(username));
+    const data = await response.json();
+    return data.user_id;
+}
+
+async function sendScore(user_id, score) {
+    await fetch("backend/upload.php", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ user_id: user_id, score: score })
+    });
 }

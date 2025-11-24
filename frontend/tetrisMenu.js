@@ -21,13 +21,23 @@ const difficultyUIText = document.querySelector("#ui-difficulty");
 //region Menu Methods
 
 let activeTab = mainMenuDisplay;
+let lastActiveTab = null;
 function selectActiveTab(active) {
-    updateUI().then(() => {
-        if (active.matches("#login-menu") || active.matches("#register-menu"))
-            uiDisplay.style.display = "none";
-        else
-            uiDisplay.style.display = "flex";
-    });
+    lastActiveTab = activeTab;
+
+    if (!(active.matches("#login-menu") || active.matches("#register-menu")))
+        activeTab = active;
+
+    if (active.matches("#game") || active.matches("#pause-menu")) {
+        uiLoginButton.style.display = "none";
+        uiLogoutButton.style.display = "none";
+    } else
+        updateUI().then(() => {
+            if (active.matches("#login-menu") || active.matches("#register-menu"))
+                uiDisplay.style.display = "none";
+            else
+                uiDisplay.style.display = "flex";
+        });
 
     displays.forEach(element => {
         if (!(element === active) )
@@ -35,7 +45,6 @@ function selectActiveTab(active) {
             element.style.display = "none";
         else
             element.style.display = "flex";
-        activeTab = active;
     });
 }
 
