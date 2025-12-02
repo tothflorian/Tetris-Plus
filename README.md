@@ -61,17 +61,78 @@ JavaScript technikák:
 
 PHP technikák:
 -
-- I. Adatbázis
+- I. PHP Elemek | A projekt több alapvető PHP-elemre épül:
+  - változók, tömbök, asszociatív tömbök használata ($_POST, $_FILES, adatbázis sorok)
+  - feltételes szerkezetek (if, else)
+  - vezérlési szerkezetek, ciklusok (adatfeldolgozásnál)
+  - require szerkezet a kódszervezéshez.
+
+- II. PHP függvények használata | A kódban számos beépített és saját függvény jelenik meg:
+  - szövegkezelő függvények: trim(), password_hash(), password_verify()
+  - tömbkezelés: isset(), empty(), array típusok
+  - dátum/idő: szerver oldalon logokhoz, session lejáratokhoz
+  - saját logikai függvények adatbázis-kapcsolatra és hitelesítésre.
+
+- III. Objektumorientált programozás (OOP) | Kapcsolatteremtés az adatbázissal:
   - A PHP funkciók adathalmazának alapjául szolgáló platform a MySQL, amivel kapcsolatban áll a backend, függ tőle.
   - A két megközelítés közül (PDO - többféle adatbázishoz, mysqli - MySQL) a mysqli-t választottam a projektemhez, mivel ez MySQL adatbázis esetén gyorsabban működik, mint a PDO-s megoldás.
-- II. User login rendszer
+
+- IV. Kimenet generálása PHP-vel | JSON objektumok:
+  - A backend több helyen JSON-t generál válaszként (echo json_encode(...))
+  - hibaüzeneteket ad vissza AJAX hívások számára
+  - HTML-t nem közvetlenül a PHP állít elő, mert a frontend külön van választva – modern fejlesztési szemlélet.
+
+- V. Környezeti adatok használata:
+  - .env fájlt (config.env) konfigurációkhoz
+  - A biztonságos adatbázis-kapcsolat érdekében.
+
+- VI. Űrlapkezelés, validálás és adatok feldolgozása
+  - A hitelesítési űrlapok backendje ellenőrzi, hogy a mezők ki vannak-e töltve,
+    - jelszót hashel (password_hash)
+    - adatot olvas POST-ból ($_POST)
+    - hibákat küld vissza JSON-ban a frontendnek.
+
+- VII. Adattárolás – adatbázis használata
+  - Kapcsolatteremtés mysqli használatával (lásd: PHP Technikák III.)
+  - A projekt adatbázist használ, amelyhez:
+    - prepared statement-eket használsz (SQL injection elleni védelem)
+    - adatokat mentesz: felhasználók, pontszámok
+    - adatokat olvasol: login ellenőrzés, user ID lekérése.
+  - Eredménytábla
+    - A felhasználó eredményei felkerülnek az eredménytáblába, amennyiben nincsen bejelentkezve, automatikusan Vendég (Guest) néven rögzíti az elért eredményt.
+    - Több segédfüggvény a fetch() függvény használatával összekötik a frontend-et a backend-del.
+    - A játéklogika (tetrisGameLogic.js) gameOver eseménye feltölti az elért eredményt és a hozzá tartozó felhasználót az adatbázisba.
+    - A főoldal (index.php) leaderboard részén a tábla PHP kóddal kéri le az adatbázisból a már rögzített eredményeket, majd jeleníti meg egy dinamikus méretű táblában.
+
+- VIII. Munkamenet kezelés (session)
+  - A session.php kezeli:
+    - session indítása: session_start()
+    - session változók tárolása (pl. user azonosító)
+    - session ellenőrzése bejelentkezéskor
+    - Logoutnál session törlés történik.
+
+- IX. Hitelesítés
   - A felhasználó tud saját fiókot regisztrálni, abba bejelentkezni és tetszés szerint kijelentkezni is.
-  - Ez a funkció session segítségével valósul meg. 
-- III. Eredménytábla
-  - A felhasználó eredményei felkerülnek az eredménytáblába, amennyiben nincsen bejelentkezve, automatikusan Vendég (Guest) néven rögzíti az elért eredményt.
-  - Több segédfüggvény a fetch() függvény használatával összekötik a frontend-et a backend-del.
-  - A játéklogika (tetrisGameLogic.js) gameOver eseménye feltölti az elért eredményt és a hozzá tartozó felhasználót az adatbázisba.
-  - A főoldal (index.php) leaderboard részén a tábla PHP kóddal kéri le az adatbázisból a már rögzített eredményeket, majd jeleníti meg egy dinamikus méretű táblában.
+  - Ez a funkció session segítségével valósul meg.
+
+- X. Kódszervezés (logikai és fizikai) | A projekt példásan strukturált:
+  - Backend és frontend teljes szétválasztása
+  - Backend logikai részei külön fájlokba bontva
+  - környezeti adatok külön .env fájlban
+  - többször használható részek: db.php, session.php
+
+- XI. Aszinkron kiszolgálás (AJAX / fetch API)
+  - A frontend JavaScript fájlok (tetrisUserLogin.js)
+  - AJAX kérdéseket küldenek PHP-nek, amely JSON-t küld vissza.
+  - Ez modern, aszinkron szerver-oldali kommunikáció.
+
+- XII. Hibakezelés
+  - Több helyen try catch használata, ahol a PHP kódtól független erőforrások (pl. adatbázis) vannak használva.
+
+- XIII. Tesztelés | A projekt több ponton manuálisan tesztelhető:
+  - Auth műveletek POST-tal
+  - Fetch-alapú AJAX válaszok ellenőrzése böngésző konzolban
+  - Automatizált PHP unit teszt nincs, de a struktúra erre alkalmas lenne.
 
 # English version:
 
@@ -135,16 +196,77 @@ JavaScript techniques:
   - The game’s main logical engine runs in the gameLoop() cycle, which asynchronously generates frames via requestAnimationFrame() callbacks.
   - Each frame clears and redraws the field to ensure smooth motion. For a game of this scale, the load is practically trivial.
 
-PHP techniques:
+PHP Techniques:
 -
-- I. Database
-  - The PHP mechanics using data in this project are relying on MySQL, which depends on the backend it's connected to.
-  - From the two options (PDO - for a variety of databases, mysqli - MySQL) I chose mysqli for my project, as it works faster when it comes to MySQL database, than the PDO version.
-- II. User login system
-  - The user can register their own account, log in and log out at will.
-  - This mechanic uses sessions. 
-- III. Leaderboard
-  - The users scores are uploaded to the database. If they aren't logged in, the score uploads with the Guest username by default.
-  - Several auxiliary functions are connecting the frontend and the backend using the fetch() function.
-  - The gameOver event inside game logic (tetrisGameLogic.js) uploads the user and their score to the database.
-  - At the leaderboard menupoint the table uses PHP code to fetch the records data, then lists them in this dynamic table.
+- I. PHP Elements | The project is built upon several fundamental PHP elements:
+  - use of variables, arrays, associative arrays ($_POST, $_FILES, database rows)
+  - conditional structures (if, else)
+  - control structures, loops (for data processing)
+  - use of include/require for code organization
+
+- II. Use of PHP Functions | The code makes use of many built-in and custom functions:
+  - string handling functions: trim(), password_hash(), password_verify()
+  - array handling: isset(), empty(), array types
+  - date/time: for server-side logs and session expirations
+  - custom logic functions for database connection and authentication.
+
+- III. Object-Oriented Programming (OOP) | Database Integration:
+  - The backend depends on MySQL, which serves as the platform for the PHP functionality and data handling.
+  - Between the two approaches (PDO – for multiple database types, mysqli – for MySQL), I chose mysqli for this project, as it performs faster than PDO when using a MySQL database.
+
+- IV. Output Generation with PHP | JSON Objects:
+  - The backend generates JSON responses in multiple places (echo json_encode(…))
+  - returns error messages for AJAX calls
+  - HTML is not generated directly by PHP, since the frontend is separated — a modern development approach.
+
+- V. Use of Environment Variables:
+  - .env file (config.env) for configuration
+  - Ensures secure database connection settings.
+
+- VI. Form Handling, Validation, and Data Processing
+  - The backend for authentication forms checks whether fields are filled,
+    - hashes passwords (password_hash)
+    - reads data from POST ($_POST)
+    - returns errors in JSON format to the frontend.
+
+- VII. Data Storage – Database Usage
+  - Connecting via mysqli (see PHP Techniques III.)
+  - The project uses a database where:
+    - prepared statements are used (protection against SQL injection)
+    - data is stored: users, scores
+    - data is retrieved: login verification, fetching user ID
+  - Leaderboard
+    - User results are added to the leaderboard; if the user is not logged in, the result is stored automatically under the name “Guest”.
+    - Several helper functions using fetch() connect the frontend and backend.
+    - The game logic (tetrisGameLogic.js) triggers a gameOver event that uploads the score and associated user to the database.
+    - On the main page (index.php), the leaderboard section retrieves saved results using PHP and displays them in a dynamically sized table.
+
+- VIII. Session Management
+  - session.php handles:
+    - session start: session_start()
+    - storing session variables (e.g., user ID)
+    - session validation during login
+    - clearing session on logout.
+
+- IX. Authentication
+  - Users can register their own accounts, log in, and log out at will.
+  - This feature is implemented using sessions.
+
+- X. Code Organization (Logical and Physical) | The project is well-structured:
+  - Complete separation of backend and frontend
+  - Backend logic split into separate files
+  - environment data stored in a separate .env file
+  - reusable components: db.php, session.php
+
+- XI. Asynchronous Communication (AJAX / Fetch API)
+  - Frontend JavaScript files (tetrisUserLogin.js)
+  - Sends AJAX requests to PHP, which returns JSON responses.
+  - This ensures modern, asynchronous server-side communication.
+
+- XII. Error Handling
+  - try–catch blocks are used in several places where resources independent from PHP code (e.g., the database) are involved.
+
+- XIII. Testing | The project can be manually tested at several points:
+  - authentication operations with POST
+  - checking fetch-based AJAX responses in the browser console
+  - No automated PHP unit tests are included, but the structure is suitable for them.
