@@ -3,9 +3,9 @@ SEE THE ENGLISH VERSION BELOW
 
 Hogyan kell játszani:
 -
-A játék célja, hogy a leeső darabokat úgy helyezd el, hogy teljes vízszintes sorokat töltsenek ki.
+A játék célja a leeső darabokat úgy elhelyezni, hogy teljes vízszintes sorokat töltsenek ki.
 A megtelt sorok eltűnnek, és pont jár értük. Minél több sor tűnik el egyszerre, annál több pont jár.
-A játék akkor ér véget, ha az darabok elérik a pálya tetejét.
+A játék akkor ér véget, ha a darabok elérik a pálya tetejét.
 
 Irányítás:
   - A / D | Balra / Jobbra nyíl – az elem mozgatása adott irányba
